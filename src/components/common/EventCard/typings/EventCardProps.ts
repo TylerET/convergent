@@ -8,4 +8,9 @@ export type EventCardProps = {
   admission?: string;
   imageSrc?: string;
   imageAlt?: string;
+  description?: string;
+  location?: string;
+  tags?: string[];
+  startTime?: string;
+  endTime?: string;
 };

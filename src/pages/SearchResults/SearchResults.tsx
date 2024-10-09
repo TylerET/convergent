@@ -19,7 +19,8 @@ function SearchResults() {
   const filteredEvents = mockEventData.filter(
     (event) =>
       event.title.toLowerCase().includes(query) ||
-      event.hostedBy.toLocaleLowerCase().includes(query)
+      event.hostedBy.toLocaleLowerCase().includes(query) ||
+      event.tags.some((tag) => tag.toLocaleLowerCase().includes(query))
   );
 
   return (
