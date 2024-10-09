@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyledDiv } from "./Home.styles";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 import mockEventData from "../../mocks/mockEvents";
 import { Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
+import { getUserEvents } from "../../utils/localStorageUtils";
 
 function Home() {
   const navigation = useNavigate();
   const navigateToViewAllEvents = () => navigation("/events");
+  const navigateToMyEvents = () => navigation("/my-events");
+  const { isLoggedIn } = useCustomer();
+  const [myEvents, setMyEvents] = useState<any>([]);
+
+  useEffect(() => {
+    setMyEvents(getUserEvents());
+  }, [isLoggedIn]);
+
   return (
     <StyledDiv>
       <Stack>
+        {isLoggedIn && myEvents?.length > 0 && (
+          <EventCardContainer
+            eventCards={myEvents}
+            title="Your Upcoming Events"
+            linkText="See my events"
+            linkAction={navigateToMyEvents}
+          />
+        )}
         <EventCardContainer
           eventCards={mockEventData.slice(0, 8)}
           title="Events Near"
-          location="Charlotte"
           linkText="See all events"
+          showLocation
           linkAction={navigateToViewAllEvents}
         />
         <EventCardContainer
@@ -24,7 +42,7 @@ function Home() {
             .sort(
               (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
             )}
-          title="Upcoming events"
+          title="Upcoming Events"
           linkText="See all events"
           linkAction={navigateToViewAllEvents}
         />

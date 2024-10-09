@@ -19,7 +19,7 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
     name: string;
     email: string;
   } | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState("charlotte");
+  const [selectedLocation, setSelectedLocation] = useState("Charlotte");
 
   const logIn = (name: string, email: string) => {
     setIsLoggedIn(true);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -19,13 +19,17 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import logo from "../../assets/convergent-logo-only.png";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
+import UploadAvatarDrawer from "../UploadAvatarDrawer/UploadAvatarDrawer";
 
 function HeaderNavigation() {
   const { isLoggedIn, logOut, selectedLocation, updateLocation, logIn } =
     useCustomer();
   const navigation = useNavigate();
+  const [isAvatarDrawerOpen, setIsAvatarDrawerOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [CurrentImage, setCurrentImage] = useState<string | null>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -40,6 +44,14 @@ function HeaderNavigation() {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem("avatar");
+    if (savedAvatar) {
+      setCurrentImage(savedAvatar);
+    }
+  }, []);
+
   return (
     <Box bg="white" px={4} borderBottom="1px solid lightgray">
       <Flex
@@ -71,6 +83,7 @@ function HeaderNavigation() {
             />
           </InputGroup>
           <Select
+            ref={selectRef}
             ml={4}
             maxW="200px"
             borderRadius="full"
@@ -80,10 +93,10 @@ function HeaderNavigation() {
             <option value="" disabled>
               Location
             </option>
-            <option value="ny">New York, NY</option>
-            <option value="sf">San Francisco, CA</option>
-            <option value="la">Los Angeles, CA</option>
-            <option value="charlotte">Charlotte, NC</option>
+            <option value="New York">New York, NY</option>
+            <option value="San Francisco">San Francisco, CA</option>
+            <option value="Los Angeles">Los Angeles, CA</option>
+            <option value="Charlotte">Charlotte, NC</option>
           </Select>
           <Button
             ml={2}
@@ -108,18 +121,20 @@ function HeaderNavigation() {
                   variant="link"
                   cursor="pointer"
                 >
-                  <Avatar>
-                    <AvatarBadge boxSize="1.25em" bg="green.500" />
-                  </Avatar>
+                  {CurrentImage ? (
+                    <Avatar src={CurrentImage} />
+                  ) : (
+                    <Avatar>
+                      <AvatarBadge boxSize="1.25em" bg="green.500" />
+                    </Avatar>
+                  )}
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={() => navigation("/my-events")}>
                     My Events
                   </MenuItem>
-                  <MenuItem
-                    onClick={() => console.log("Change Avatar clicked")}
-                  >
-                    Change Avatar
+                  <MenuItem onClick={() => setIsAvatarDrawerOpen(true)}>
+                    Upload Avatar
                   </MenuItem>
                   <MenuItem onClick={logOut}>Log out</MenuItem>
                 </MenuList>
@@ -151,6 +166,10 @@ function HeaderNavigation() {
           )}
         </Flex>
       </Flex>
+      <UploadAvatarDrawer
+        open={isAvatarDrawerOpen}
+        setOpen={setIsAvatarDrawerOpen}
+      />
     </Box>
   );
 }

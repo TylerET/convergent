@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { EventCardContainerProps } from "./typings/EventCardContainerProps";
 import { ResponsiveGridContainer } from "./EventCardContainer.styles";
 import EventCard from "../EventCard/EventCard";
 import { Flex, Icon, Link, Stack, Text } from "@chakra-ui/react";
 import { ReactComponent as EditIcon } from "../../../assets/icons/pencil-edit-svgrepo-com.svg";
+import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
 
 const EventCardContainer = ({
   title,
-  location,
   linkText,
   linkAction,
   eventCards,
+  showLocation,
 }: EventCardContainerProps) => {
-  // state
+  const { selectedLocation } = useCustomer();
   return (
     <Stack>
       <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -21,11 +22,16 @@ const EventCardContainer = ({
             <Text fontSize={"4xl"} fontWeight={"bold"} mr={2}>
               {title}
             </Text>
-            {location && (
-              <Text fontSize={"4xl"} fontWeight={"bold"}>
-                {location}
-                {/* <Icon as={EditIcon} boxSize={10} cursor={"pointer"} /> */}
-              </Text>
+            {selectedLocation && showLocation && (
+              <Flex
+                cursor={"pointer"}
+                _hover={{ textDecoration: "underline" }}
+                color="teal"
+              >
+                <Text fontSize={"4xl"} fontWeight={"bold"} color="teal">
+                  {selectedLocation}
+                </Text>
+              </Flex>
             )}
           </Flex>
         )}
@@ -41,8 +47,8 @@ const EventCardContainer = ({
         </Link>
       </Flex>
       <ResponsiveGridContainer>
-        {eventCards.map((event, index) => (
-          <EventCard key={index} {...event} />
+        {eventCards.map((event) => (
+          <EventCard key={event?.eventId} {...event} />
         ))}
       </ResponsiveGridContainer>
     </Stack>

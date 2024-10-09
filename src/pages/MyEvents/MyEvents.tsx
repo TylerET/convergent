@@ -1,12 +1,15 @@
 import React from "react";
-import { StyledDiv } from "./EventsPage.styles";
+import { StyledDiv } from "./MyEvents.styles";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 import mockEventData from "../../mocks/mockEvents";
+import { getUserEvents } from "../../utils/localStorageUtils";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
-const EventsPage = () => {
+const MyEvents = () => {
+  const filteredEvents = getUserEvents();
+
   return (
     <>
       <Breadcrumb
@@ -19,14 +22,14 @@ const EventsPage = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="#">All Events</BreadcrumbLink>
+          <BreadcrumbLink href="#">My Events</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <StyledDiv>
-        <EventCardContainer title="All Events" eventCards={mockEventData} />
+        <EventCardContainer title="My Events" eventCards={filteredEvents} />
       </StyledDiv>
     </>
   );
 };
 
-export default EventsPage;
+export default MyEvents;
