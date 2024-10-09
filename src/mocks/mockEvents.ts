@@ -6,7 +6,9 @@ const mockEventData = [
     time: "10:00 AM",
     attendees: 120,
     admission: "Free",
-    imageSrc: "https://via.placeholder.com/150?text=Tech+Meetup",
+    eventId: 100,
+    imageSrc: `https://picsum.photos/id/${100}/300/200`,
+    // imageSrc: "https://via.placeholder.com/150?text=Tech+Meetup",
     imageAlt: "Tech Meetup",
   },
   {
@@ -16,7 +18,8 @@ const mockEventData = [
     time: "5:00 PM",
     attendees: 50,
     admission: "$10",
-    imageSrc: "https://via.placeholder.com/150?text=Music+Hangout",
+    eventId: 101,
+    imageSrc: `https://picsum.photos/id/${101}/300/200`,
     imageAlt: "Music Hangout",
   },
   {
@@ -26,7 +29,8 @@ const mockEventData = [
     time: "9:00 AM",
     attendees: 30,
     admission: "Free",
-    imageSrc: "https://via.placeholder.com/150?text=Adventure+Club",
+    eventId: 102,
+    imageSrc: `https://picsum.photos/id/${102}/300/200`,
     imageAlt: "Outdoor Adventure",
   },
   {
@@ -36,7 +40,8 @@ const mockEventData = [
     time: "2:00 PM",
     attendees: 200,
     admission: "$25",
-    imageSrc: "https://via.placeholder.com/150?text=Startup+Networking",
+    eventId: 103,
+    imageSrc: `https://picsum.photos/id/${103}/300/200`,
     imageAlt: "Startup Networking",
   },
   {
@@ -46,7 +51,8 @@ const mockEventData = [
     time: "11:00 AM",
     attendees: 15,
     admission: "$15",
-    imageSrc: "https://via.placeholder.com/150?text=Art+Workshop",
+    eventId: 104,
+    imageSrc: `https://picsum.photos/id/${104}/300/200`,
     imageAlt: "Art & Craft Workshop",
   },
   {
@@ -56,7 +62,8 @@ const mockEventData = [
     time: "3:00 PM",
     attendees: 300,
     admission: "$50",
-    imageSrc: "https://via.placeholder.com/150?text=AI+Expo",
+    eventId: 110,
+    imageSrc: `https://picsum.photos/id/${110}/300/200`,
     imageAlt: "AI & Machine Learning Expo",
   },
   {
@@ -66,7 +73,8 @@ const mockEventData = [
     time: "7:00 AM",
     attendees: 40,
     admission: "$75",
-    imageSrc: "https://via.placeholder.com/150?text=Wellness+Retreat",
+    eventId: 106,
+    imageSrc: `https://picsum.photos/id/${106}/300/200`,
     imageAlt: "Health & Wellness Retreat",
   },
   {
@@ -76,7 +84,8 @@ const mockEventData = [
     time: "4:00 PM",
     attendees: 25,
     admission: "$30",
-    imageSrc: "https://via.placeholder.com/150?text=Cooking+Class",
+    eventId: 107,
+    imageSrc: `https://picsum.photos/id/${107}/300/200`,
     imageAlt: "Cooking Masterclass",
   },
   {
@@ -86,7 +95,8 @@ const mockEventData = [
     time: "10:00 AM",
     attendees: 500,
     admission: "$100",
-    imageSrc: "https://via.placeholder.com/150?text=Blockchain+Summit",
+    eventId: 108,
+    imageSrc: `https://picsum.photos/id/${108}/300/200`,
     imageAlt: "Blockchain Summit",
   },
   {
@@ -96,7 +106,8 @@ const mockEventData = [
     time: "9:00 AM",
     attendees: 80,
     admission: "Free",
-    imageSrc: "https://via.placeholder.com/150?text=Photography+Meetup",
+    eventId: 109,
+    imageSrc: `https://picsum.photos/id/${109}/300/200`,
     imageAlt: "Photography Meetup",
   },
 ];
