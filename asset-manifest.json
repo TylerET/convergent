@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/convergent/static/css/main.79d19d76.css",
-    "main.js": "/convergent/static/js/main.671fd58c.js",
+    "main.js": "/convergent/static/js/main.cb45d43d.js",
     "static/js/453.29609610.chunk.js": "/convergent/static/js/453.29609610.chunk.js",
     "static/media/convergent-logo-only.png": "/convergent/static/media/convergent-logo-only.2e27494ad5ddf28c1e21.png",
     "static/media/ticket-4-svgrepo-com.svg": "/convergent/static/media/ticket-4-svgrepo-com.07b51544caba73436b2797cd4bde3a16.svg",
     "index.html": "/convergent/index.html",
     "static/media/person-svgrepo-com.svg": "/convergent/static/media/person-svgrepo-com.431b0119278a762b7985d2549fbe862e.svg",
     "main.79d19d76.css.map": "/convergent/static/css/main.79d19d76.css.map",
-    "main.671fd58c.js.map": "/convergent/static/js/main.671fd58c.js.map",
+    "main.cb45d43d.js.map": "/convergent/static/js/main.cb45d43d.js.map",
     "453.29609610.chunk.js.map": "/convergent/static/js/453.29609610.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.79d19d76.css",
-    "static/js/main.671fd58c.js"
+    "static/js/main.cb45d43d.js"
   ]
 }
