@@ -30,3 +30,16 @@ export const getUserEvents = () => {
       : [];
   return filteredEvents;
 };
+
+export const saveAccessToken = (tokenData: { name: string; email: string }) => {
+  localStorage.setItem("access-token", JSON.stringify(tokenData));
+};
+
+export const getAccessToken = () => {
+  const token = localStorage.getItem("access-token");
+  return token ? JSON.parse(token) : null;
+};
+
+export const removeAccessToken = () => {
+  localStorage.removeItem("access-token");
+};

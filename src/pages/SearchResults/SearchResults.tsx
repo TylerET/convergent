@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { StyledDiv } from "./SearchResults.styles";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
@@ -38,7 +39,9 @@ function SearchResults() {
       </Breadcrumb>
       <Heading mb={4}>Search Results for "{query}"</Heading>
       {filteredEvents.length > 0 ? (
-        <EventCardContainer eventCards={filteredEvents} />
+        <StyledDiv>
+          <EventCardContainer eventCards={filteredEvents} />
+        </StyledDiv>
       ) : (
         <p>No events found matching your search.</p>
       )}

@@ -1,4 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import {
+  getAccessToken,
+  removeAccessToken,
+  saveAccessToken,
+} from "../../utils/localStorageUtils";
 
 interface CustomerContextProps {
   isLoggedIn: boolean;
@@ -14,7 +19,7 @@ const CustomerContext = createContext<CustomerContextProps | undefined>(
 );
 
 export const CustomerProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(getAccessToken());
   const [customerData, setCustomerData] = useState<{
     name: string;
     email: string;
@@ -24,11 +29,13 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
   const logIn = (name: string, email: string) => {
     setIsLoggedIn(true);
     setCustomerData({ name, email });
+    saveAccessToken({ name, email });
   };
 
   const logOut = () => {
     setIsLoggedIn(false);
     setCustomerData(null);
+    removeAccessToken();
   };
 
   const updateLocation = (city: string) => {

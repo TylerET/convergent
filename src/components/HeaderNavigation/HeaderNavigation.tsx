@@ -102,7 +102,7 @@ function HeaderNavigation() {
             ml={2}
             colorScheme="teal"
             borderRadius="full"
-            px={6}
+            px={10}
             onClick={handleSearch}
           >
             Search

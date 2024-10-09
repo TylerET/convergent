@@ -97,7 +97,7 @@ const UploadAvatarDrawer: React.FC<UploadAvatarDrawerProps> = ({
   const getAvatar = () => {
     if (resizedImage) return <Avatar size="2xl" src={resizedImage} />;
     else if (currentImage) return <Avatar size="2xl" src={currentImage} />;
-    else <Avatar size="2xl" />;
+    else return <Avatar size="2xl" />;
   };
 
   return (
