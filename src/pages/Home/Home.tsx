@@ -2,10 +2,12 @@ import React from "react";
 import { StyledDiv } from "./Home.styles";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 import mockEventData from "../../mocks/mockEvents";
-import { Stack, Text } from "@chakra-ui/react";
-import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
+import { Stack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigation = useNavigate();
+  const navigateToViewAllEvents = () => navigation("/events");
   return (
     <StyledDiv>
       <Stack>
@@ -14,9 +16,7 @@ function Home() {
           title="Events Near"
           location="Charlotte"
           linkText="See all events"
-          linkAction={() => {
-            console.log("link clicked!");
-          }}
+          linkAction={navigateToViewAllEvents}
         />
         <EventCardContainer
           eventCards={mockEventData
@@ -26,9 +26,7 @@ function Home() {
             )}
           title="Upcoming events"
           linkText="See all events"
-          linkAction={() => {
-            console.log("link clicked!");
-          }}
+          linkAction={navigateToViewAllEvents}
         />
       </Stack>
     </StyledDiv>

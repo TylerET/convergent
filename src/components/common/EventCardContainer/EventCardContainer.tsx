@@ -2,8 +2,8 @@ import React from "react";
 import { EventCardContainerProps } from "./typings/EventCardContainerProps";
 import { ResponsiveGridContainer } from "./EventCardContainer.styles";
 import EventCard from "../EventCard/EventCard";
-import { Flex, Link, Text } from "@chakra-ui/react";
-import { Stack } from "react-bootstrap";
+import { Flex, Icon, Link, Stack, Text } from "@chakra-ui/react";
+import { ReactComponent as EditIcon } from "../../../assets/icons/pencil-edit-svgrepo-com.svg";
 
 const EventCardContainer = ({
   title,
@@ -16,16 +16,19 @@ const EventCardContainer = ({
   return (
     <Stack>
       <Flex justifyContent={"space-between"} alignItems={"center"}>
-        <Flex>
-          <Text fontSize={"4xl"} fontWeight={"bold"} mr={2}>
-            {title}
-          </Text>
-          {location && (
-            <Text fontSize={"4xl"} fontWeight={"bold"}>
-              {location}
+        {title && (
+          <Flex>
+            <Text fontSize={"4xl"} fontWeight={"bold"} mr={2}>
+              {title}
             </Text>
-          )}
-        </Flex>
+            {location && (
+              <Text fontSize={"4xl"} fontWeight={"bold"}>
+                {location}
+                {/* <Icon as={EditIcon} boxSize={10} cursor={"pointer"} /> */}
+              </Text>
+            )}
+          </Flex>
+        )}
         <Link
           fontSize={"1xl"}
           color={"teal"}

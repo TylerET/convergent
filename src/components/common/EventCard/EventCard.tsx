@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { EventCardProps } from "./typings/EventCardProps";
 import {
   Card,
@@ -9,12 +9,13 @@ import {
   HStack,
   Icon,
   Image,
+  Skeleton,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { ReactComponent as PersonIcon } from "../../../assets/icons/person-svgrepo-com.svg";
 import { ReactComponent as TicketIcon } from "../../../assets/icons/ticket-4-svgrepo-com.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EventCard = ({
   title,
@@ -27,17 +28,21 @@ const EventCard = ({
   imageAlt,
   eventId,
 }: EventCardProps) => {
-  const navigation = useNavigate();
   return (
     <Card
       maxW="sm"
       cursor={"pointer"}
-      onClick={() => {
-        navigation(`/event/details/${eventId}`);
-      }}
+      as={Link}
+      to={`/events/details/${eventId}`}
     >
       <CardBody>
-        <Image src={`${imageSrc}/250/200`} alt={imageAlt} borderRadius={"lg"} />
+        <Image
+          src={`${imageSrc}/250/200`}
+          alt={imageAlt}
+          borderRadius={"lg"}
+          fallbackStrategy="beforeLoadOrError"
+          fallback={<Skeleton width={"250px"} height={"200px"} />}
+        />
         <Stack mt="6" spacing="3">
           <Heading size="md">{title}</Heading>
           <Text>{`Hosted by: ${hostedBy}`}</Text>

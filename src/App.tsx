@@ -6,6 +6,8 @@ import { ChakraProvider, Container } from "@chakra-ui/react";
 import HeaderNavigation from "./components/HeaderNavigation/HeaderNavigation";
 import EventDetails from "./pages/EventDetails/EventDetails";
 import { CustomerProvider } from "./contexts/CustomerContext/CustomerContext";
+import SearchResults from "./pages/SearchResults/SearchResults";
+import EventsPage from "./pages/Events/EventsPage";
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/event/details/:eventId" element={<EventDetails />} />
+            <Route path="/events/details/:eventId" element={<EventDetails />} />
+            <Route path="/events/search" element={<SearchResults />} />
+            <Route path="/events/" element={<EventsPage />} />
           </Routes>
         </Container>
       </CustomerProvider>
