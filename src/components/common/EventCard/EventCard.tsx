@@ -3,7 +3,6 @@ import { EventCardProps } from "./typings/EventCardProps";
 import {
   Card,
   CardBody,
-  Box,
   Divider,
   Flex,
   Heading,
@@ -31,12 +30,13 @@ const EventCard = ({
   return (
     <Card
       maxW="sm"
+      cursor={"pointer"}
       onClick={() => {
         window.location.href = `/event/details/${eventId}`;
       }}
     >
       <CardBody>
-        <Image src={imageSrc} alt={imageAlt} borderRadius={"lg"} />
+        <Image src={`${imageSrc}/250/200`} alt={imageAlt} borderRadius={"lg"} />
         <Stack mt="6" spacing="3">
           <Heading size="md">{title}</Heading>
           <Text>{`Hosted by: ${hostedBy}`}</Text>
