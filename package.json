@@ -2,6 +2,7 @@
   "name": "convergent",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://TylerET.github.io/convergent/",
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.10.1",
@@ -28,6 +29,8 @@
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

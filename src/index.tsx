@@ -10,9 +10,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter
+      basename={process.env.NODE_ENV === "production" ? "/convergent" : "/"}
+    >
       <App />
     </BrowserRouter>
   </React.StrictMode>

@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactComponent as PersonIcon } from "../../../assets/icons/person-svgrepo-com.svg";
 import { ReactComponent as TicketIcon } from "../../../assets/icons/ticket-4-svgrepo-com.svg";
+import { useNavigate } from "react-router-dom";
 
 const EventCard = ({
   title,
@@ -26,13 +27,13 @@ const EventCard = ({
   imageAlt,
   eventId,
 }: EventCardProps) => {
-  // date logic if needed
+  const navigation = useNavigate();
   return (
     <Card
       maxW="sm"
       cursor={"pointer"}
       onClick={() => {
-        window.location.href = `/event/details/${eventId}`;
+        navigation(`/event/details/${eventId}`);
       }}
     >
       <CardBody>

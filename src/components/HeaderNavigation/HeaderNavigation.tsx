@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -20,6 +20,7 @@ import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 function HeaderNavigation() {
   const { isLoggedIn, logOut, selectedLocation, updateLocation, logIn } =
     useCustomer();
+  const navigation = useNavigate();
   return (
     <Box bg="white" px={4} borderBottom="1px solid lightgray">
       <Flex
@@ -28,7 +29,7 @@ function HeaderNavigation() {
         justifyContent="space-between"
         width="100%"
       >
-        <a href="/" style={{ display: "flex" }}>
+        <a onClick={() => navigation("/")} style={{ display: "flex" }}>
           <img src={logo} alt="Convergent logo" style={{ height: "40px" }} />
 
           <Text fontSize="2xl" fontWeight="bold" color="teal" marginBottom="0">
