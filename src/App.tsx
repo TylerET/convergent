@@ -1,25 +1,21 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import logo from "./logo.svg";
-import "./App.css";
-import { Button } from "@mui/material";
-import Home from "./pages/Home";
-import About from "./pages/About";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import { ChakraProvider, Container } from "@chakra-ui/react";
+import HeaderNavigation from "./components/HeaderNavigation/HeaderNavigation";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <nav>
-          <Link to="/">Home</Link> | <Link to="/about">About</Link>
-        </nav>
+    <ChakraProvider>
+      <HeaderNavigation />
+      <Container maxW="container.xl" mt={4}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
         </Routes>
-      </header>
-    </div>
+      </Container>
+    </ChakraProvider>
   );
 }
 
