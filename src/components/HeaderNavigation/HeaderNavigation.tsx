@@ -20,6 +20,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import logo from "../../assets/convergent-logo-only.png";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 import UploadAvatarDrawer from "../UploadAvatarDrawer/UploadAvatarDrawer";
+import { mockLocations } from "../../mocks/mockLocations";
 
 function HeaderNavigation() {
   const { isLoggedIn, logOut, selectedLocation, updateLocation, logIn } =
@@ -93,10 +94,11 @@ function HeaderNavigation() {
             <option value="" disabled>
               Location
             </option>
-            <option value="New York">New York, NY</option>
-            <option value="San Francisco">San Francisco, CA</option>
-            <option value="Los Angeles">Los Angeles, CA</option>
-            <option value="Charlotte">Charlotte, NC</option>
+            {mockLocations.map((location) => (
+              <option key={location.value} value={location.value}>
+                {location.label}
+              </option>
+            ))}
           </Select>
           <Button
             ml={2}
@@ -132,6 +134,12 @@ function HeaderNavigation() {
                 <MenuList>
                   <MenuItem onClick={() => navigation("/my-events")}>
                     My Events
+                  </MenuItem>
+                  <MenuItem onClick={() => navigation("/events/host")}>
+                    Host An Event
+                  </MenuItem>
+                  <MenuItem onClick={() => navigation("/events/host/manage")}>
+                    Manage My Hosted Events
                   </MenuItem>
                   <MenuItem onClick={() => setIsAvatarDrawerOpen(true)}>
                     Upload Avatar

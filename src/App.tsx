@@ -9,10 +9,10 @@ import { CustomerProvider } from "./contexts/CustomerContext/CustomerContext";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import EventsPage from "./pages/Events/EventsPage";
 import MyEvents from "./pages/MyEvents/MyEvents";
-import { saveEventIdToLocalStorage } from "./utils/localStorageUtils";
+import HostEvent from "./pages/HostEvent/HostEvent";
+import ManageEvents from "./pages/ManageEvents/ManageEvents";
 
 function App() {
-  saveEventIdToLocalStorage("100");
   return (
     <ChakraProvider>
       <CustomerProvider>
@@ -23,6 +23,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/events/details/:eventId" element={<EventDetails />} />
             <Route path="/events/search" element={<SearchResults />} />
+            <Route path="/events/host" element={<HostEvent />} />
+            <Route path="/events/host/manage" element={<ManageEvents />} />
             <Route path="/events/" element={<EventsPage />} />
             <Route path="/my-events/" element={<MyEvents />} />
           </Routes>

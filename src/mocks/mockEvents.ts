@@ -87,8 +87,8 @@ const mockEventData = [
     endTime: "5:00 PM",
     attendees: 150,
     admission: "$50",
-    eventId: "105",
-    imageSrc: `https://picsum.photos/id/105`,
+    eventId: "500",
+    imageSrc: `https://picsum.photos/id/500`,
     imageAlt: "AI Expo",
     description:
       "Explore the latest advancements in AI and machine learning at our annual expo. Perfect for tech professionals and enthusiasts.",

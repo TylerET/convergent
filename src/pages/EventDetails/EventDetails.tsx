@@ -17,6 +17,7 @@ import { EventCardProps } from "../../components/common/EventCard/typings/EventC
 import EventPageHeader from "../../components/common/EventPageHeader/EventPageHeader";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Attendees from "../../components/common/Attendees/Attendees";
+import { getUserEvents } from "../../utils/localStorageUtils";
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -26,11 +27,12 @@ const EventDetails = () => {
   );
 
   useEffect(() => {
-    const filteredSelectedEvent = mockEventData.find(
+    const allEvents = [...getUserEvents(), ...mockEventData];
+    const filteredAllEvents = allEvents.find(
       (event) => event.eventId === eventId
     );
-    if (filteredSelectedEvent) {
-      setSelectedEvent(filteredSelectedEvent);
+    if (filteredAllEvents) {
+      setSelectedEvent(filteredAllEvents);
       setIsLoading(false);
     }
   }, [eventId]);
