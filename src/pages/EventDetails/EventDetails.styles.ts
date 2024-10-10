@@ -9,5 +9,6 @@ export const StyledDiv = styled("div", {
     minHeight: "100vh",
     width: "100%",
     overflow: "auto",
+    flexDirection: "column",
   },
 });
