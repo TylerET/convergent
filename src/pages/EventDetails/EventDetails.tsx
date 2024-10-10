@@ -89,7 +89,6 @@ const EventDetails = () => {
                   ))}
                 </Box>
 
-                {/* Attendees Section Back Under Details */}
                 <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
                   Attendees ({selectedEvent?.attendees})
                 </Text>
