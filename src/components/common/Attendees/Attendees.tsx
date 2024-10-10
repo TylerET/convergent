@@ -22,6 +22,7 @@ const AttendeeCard = ({ name, role, imageSrc }: AttendeeCardProps) => {
   return (
     <div>
       <Card
+        key={imageSrc}
         maxW={"150px"}
         padding={4}
         justifyContent={"center"}

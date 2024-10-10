@@ -18,13 +18,15 @@ import { ReactComponent as PersonIcon } from "../../../assets/icons/person-svgre
 import { ReactComponent as TicketIcon } from "../../../assets/icons/ticket-4-svgrepo-com.svg";
 import { ReactComponent as StarFilled } from "../../../assets/icons/star-filled.svg";
 import { ReactComponent as StarOutline } from "../../../assets/icons/star-outline.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
+  deleteHostedEvent,
+  getHostedEvents,
   getLocalStorageItem,
   removeEventIdFromLocalStorage,
   saveEventIdToLocalStorage,
 } from "../../../utils/localStorageUtils";
-import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const EventCard = ({
   title,
@@ -38,8 +40,13 @@ const EventCard = ({
   eventId,
 }: EventCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isHostedByMe, setIsHostedByMe] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   useEffect(() => {
     const myEvents = getLocalStorageItem("MyEvents");
+    const myHostedEvents = getHostedEvents();
+    const myHostedEventIds = myHostedEvents.map((event: any) => event.eventId);
+    setIsHostedByMe(myHostedEventIds?.includes(eventId));
     setIsFavorite(myEvents?.includes(eventId));
   }, []);
 
@@ -49,6 +56,13 @@ const EventCard = ({
       : saveEventIdToLocalStorage(eventId);
     setIsFavorite((prevState: boolean) => !prevState);
   };
+
+  const handleDeleteEvent = () => {
+    deleteHostedEvent(eventId);
+    setIsDeleted(true);
+  };
+
+  if (isDeleted) return null;
   return (
     <Card maxW="sm">
       <CardBody
@@ -96,13 +110,23 @@ const EventCard = ({
                 >{`${admission}`}</Text>
               </>
             )}
-            <Icon
-              as={isFavorite ? StarFilled : StarOutline}
-              boxSize={6}
-              ml={"auto"}
-              cursor={"pointer"}
-              onClick={handleFavoriteClick}
-            />
+            {!isHostedByMe ? (
+              <Icon
+                as={isFavorite ? StarFilled : StarOutline}
+                boxSize={6}
+                ml={"auto"}
+                cursor={"pointer"}
+                onClick={handleFavoriteClick}
+              />
+            ) : (
+              <Icon
+                as={DeleteIcon}
+                boxSize={6}
+                ml={"auto"}
+                cursor={"pointer"}
+                onClick={handleDeleteEvent}
+              />
+            )}
           </HStack>
         </Stack>
       </CardFooter>

@@ -1,3 +1,4 @@
+import { EventCardProps } from "../components/common/EventCard/typings/EventCardProps";
 import mockEventData from "../mocks/mockEvents";
 
 export const getLocalStorageItem = (key: string) => {
@@ -28,7 +29,9 @@ export const getUserEvents = () => {
     myEvents.length > 0
       ? mockEventData.filter((event) => myEvents.includes(event?.eventId))
       : [];
-  return filteredEvents;
+  const hostedEvents = getHostedEvents();
+  const allUserEvents = [...hostedEvents, ...filteredEvents];
+  return allUserEvents;
 };
 
 export const saveAccessToken = (tokenData: { name: string; email: string }) => {
@@ -42,4 +45,57 @@ export const getAccessToken = () => {
 
 export const removeAccessToken = () => {
   localStorage.removeItem("access-token");
+};
+
+export const saveHostedEvent = (eventData: EventCardProps) => {
+  const storedHostedEvents = localStorage.getItem("hosted-events");
+  const hostedEventsArray = storedHostedEvents
+    ? JSON.parse(storedHostedEvents)
+    : [];
+  hostedEventsArray.push(eventData);
+
+  localStorage.setItem("hosted-events", JSON.stringify(hostedEventsArray));
+};
+
+export const getHostedEvents = () => {
+  const storedHostedEvents = localStorage.getItem("hosted-events");
+  const hostedEventsArray = storedHostedEvents
+    ? JSON.parse(storedHostedEvents)
+    : [];
+  const formattedDatesHostedEventsArray = hostedEventsArray.map(
+    (event: any) => ({
+      ...event,
+      date: new Date(event.date),
+    })
+  );
+  return formattedDatesHostedEventsArray;
+};
+
+export const getNextEventId = () => {
+  let nextEventId = 0;
+  const storedHostedEvents = localStorage.getItem("hosted-events");
+  const hostedEventsArray = storedHostedEvents
+    ? JSON.parse(storedHostedEvents)
+    : [];
+  hostedEventsArray.forEach(
+    (event: any) =>
+      (nextEventId = Math.max(nextEventId, Number(event?.eventId)))
+  );
+  mockEventData.forEach(
+    (event) => (nextEventId = Math.max(nextEventId, Number(event?.eventId)))
+  );
+  return ++nextEventId;
+};
+
+export const deleteHostedEvent = (eventId: string) => {
+  const storedHostedEvents = localStorage.getItem("hosted-events");
+  let hostedEventsArray = storedHostedEvents
+    ? JSON.parse(storedHostedEvents)
+    : [];
+
+  hostedEventsArray = hostedEventsArray.filter(
+    (event: { eventId: string }) => event.eventId !== eventId
+  );
+
+  localStorage.setItem("hosted-events", JSON.stringify(hostedEventsArray));
 };
