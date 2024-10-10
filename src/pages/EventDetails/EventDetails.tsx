@@ -89,14 +89,12 @@ const EventDetails = () => {
                   ))}
                 </Box>
 
-                {/* Attendees Section Back Under Details */}
                 <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
                   Attendees ({selectedEvent?.attendees})
                 </Text>
                 <Attendees numberOfAttendees={selectedEvent?.attendees as number} />
               </GridItem>
 
-              {/* Event Information on the Right */}
               <GridItem>
                 <Text fontSize={"2xl"} fontWeight={"bold"} mb={4}>
                   Event Information
