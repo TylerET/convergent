@@ -8,6 +8,7 @@ import {
   Skeleton,
   Text,
   Tag,
+  Box,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -56,7 +57,7 @@ const EventDetails = () => {
           </Breadcrumb>
           <EventPageHeader event={selectedEvent as EventCardProps} />
           <StyledDiv>
-            <Grid>
+            <Grid templateColumns="2fr 1fr" gap={8}>
               <GridItem>
                 <Image
                   src={`${selectedEvent?.imageSrc}/700/400`}
@@ -65,39 +66,63 @@ const EventDetails = () => {
                   fallbackStrategy="beforeLoadOrError"
                   fallback={<Skeleton width={"700px"} height={"400px"} />}
                 />
-              </GridItem>
-              <GridItem>
-                <Text fontSize={"2xl"} fontWeight={"bold"}>
-                  Detail
+                <Text fontSize={"2xl"} fontWeight={"bold"} mt={4}>
+                  Details
                 </Text>
                 <Text>{selectedEvent?.description}</Text>
-              </GridItem>
-              <GridItem>
-                {selectedEvent?.tags?.map((tag) => (
-                  <Tag
-                    onClick={() =>
-                      navigation(
-                        `/events/search?query=${encodeURIComponent(tag)}`
-                      )
-                    }
-                    cursor={"pointer"}
-                    size="lg"
-                    key={tag}
-                    colorScheme="teal"
-                    color="teal"
-                    mx={2}
-                  >
-                    {tag}
-                  </Tag>
-                ))}
-              </GridItem>
-              <GridItem>
-                <Text fontSize={"2xl"} fontWeight={"bold"}>
+                <Box mt={4}>
+                  {selectedEvent?.tags?.map((tag) => (
+                    <Tag
+                      onClick={() =>
+                        navigation(
+                          `/events/search?query=${encodeURIComponent(tag)}`
+                        )
+                      }
+                      cursor={"pointer"}
+                      size="lg"
+                      key={tag}
+                      colorScheme="teal"
+                      mx={1}
+                    >
+                      {tag}
+                    </Tag>
+                  ))}
+                </Box>
+
+                {/* Attendees Section Back Under Details */}
+                <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
                   Attendees ({selectedEvent?.attendees})
                 </Text>
-                <Attendees
-                  numberOfAttendees={selectedEvent?.attendees as number}
-                />
+                <Attendees numberOfAttendees={selectedEvent?.attendees as number} />
+              </GridItem>
+
+              {/* Event Information on the Right */}
+              <GridItem>
+                <Text fontSize={"2xl"} fontWeight={"bold"} mb={4}>
+                  Event Information
+                </Text>
+                <Box mb={2}>
+                  <Text fontWeight="bold">Hosted By:</Text>
+                  <Text>{selectedEvent?.hostedBy}</Text>
+                </Box>
+                <Box mb={2}>
+                  <Text fontWeight="bold">Date:</Text>
+                  <Text>{selectedEvent?.date.toLocaleDateString()}</Text>
+                </Box>
+                <Box mb={2}>
+                  <Text fontWeight="bold">Time:</Text>
+                  <Text>
+                    {selectedEvent?.startTime} - {selectedEvent?.endTime}
+                  </Text>
+                </Box>
+                <Box mb={2}>
+                  <Text fontWeight="bold">Location:</Text>
+                  <Text>{selectedEvent?.location}</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">Admission:</Text>
+                  <Text>{selectedEvent?.admission}</Text>
+                </Box>
               </GridItem>
             </Grid>
           </StyledDiv>
