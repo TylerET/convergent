@@ -96,7 +96,6 @@ const EventDetails = () => {
                 <Attendees numberOfAttendees={selectedEvent?.attendees as number} />
               </GridItem>
 
-              {/* Event Information on the Right */}
               <GridItem>
                 <Text fontSize={"2xl"} fontWeight={"bold"} mb={4}>
                   Event Information
