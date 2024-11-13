@@ -16,6 +16,7 @@
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
@@ -32,8 +33,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start:local": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "start:frontend": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "start:server": "nodemon server/api/index.js",
     "start": "node server/api/index.js",
+    "dev": "concurrently \"npm run start:frontend\" \"npm run start:server\"",
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -59,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "gh-pages": "^6.1.1",
     "nodemon": "^3.1.7"
   }

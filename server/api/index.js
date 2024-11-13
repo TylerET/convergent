@@ -1,45 +1,81 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const connectDB = require("./utils/connectDB");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const cors = require("cors");
 require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const env = process.env.NODE_ENV || "production";
 
 // Middleware for parsing JSON
 app.use(express.json());
+app.use(cors());
 
 // MongoDB Connection
 connectDB();
 
-// Define a Mongoose Schema for the comments collection
-const commentSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  movie_id: mongoose.Schema.Types.ObjectId,
-  text: String,
-  date: Date,
-});
+// Swagger setup
 
-// Create a model for the comments collection
-const Comment = mongoose.model("comment", commentSchema, "comments");
-
-// Fetch comments from the collection and log to console
-const fetchComments = async () => {
-  try {
-    console.log("Connecting to MongoDB...");
-    const comments = await Comment.find().limit(10);
-    console.log("Comments fetched:", comments);
-  } catch (err) {
-    console.error("Error fetching comments:", err.message);
-  }
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Express API Documentation",
+      version: "1.0.0",
+      description: "API documentation for your Express app",
+    },
+    servers: [
+      {
+        url:
+          env === "production"
+            ? `https://convergent.onrender.com`
+            : `http://localhost:${PORT}`,
+      },
+    ],
+  },
+  apis: ["./server/api/routes/*.js"],
 };
 
-// Start the server
-app.listen(PORT, async () => {
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Dynamic route loading
+const routesPath = path.join(__dirname, "routes");
+fs.readdirSync(routesPath).forEach((file) => {
+  if (file.endsWith(".js")) {
+    const route = require(`./routes/${file}`);
+    const routeName = file.replace(".js", "");
+    app.use(`/api/${routeName}`, route);
+  }
+});
+
+// Root redirect to Swagger UI
+app.get("/", (req, res) => {
+  res.redirect("/api-docs");
+});
+
+// Start the server with dynamic port fallback
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-  await connectDB(); // Connect to MongoDB
-  await fetchComments(); // Fetch and log comments
+  console.log(`API docs available at http://localhost:${PORT}/api-docs`);
+});
+
+// Handle EADDRINUSE error and fallback to another port
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.warn(`Port ${PORT} is already in use. Trying another port...`);
+    const newPort = PORT + 1;
+    app.listen(newPort, () => {
+      console.log(`Server is now running on http://localhost:${newPort}`);
+      console.log(`API docs available at http://localhost:${newPort}/api-docs`);
+    });
+  } else {
+    console.error("Server error:", error);
+  }
 });
 
 module.exports = app;
