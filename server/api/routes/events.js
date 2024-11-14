@@ -10,8 +10,17 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *  - EventController
+ *  description: Event endpoints
+ */
+
+/**
+ * @swagger
  * /api/events:
  *   get:
+ *    tags:
+ *     - EventController
  *     summary: Get a list of all events
  *     responses:
  *       200:
@@ -23,6 +32,8 @@ router.get("/", getAllEvents);
  * @swagger
  * /api/events/{id}:
  *   get:
+ *     tags:
+ *     - EventController
  *     summary: Get a specific event by ID
  *     parameters:
  *       - in: path
@@ -41,8 +52,10 @@ router.get("/:id", getEventById);
 
 /**
  * @swagger
- * /api/event:
+ * /api/events:
  *   post:
+ *     tags:
+ *     - EventController
  *     summary: Create a new event
  *     requestBody:
  *       required: true
@@ -67,8 +80,10 @@ router.post("/", createEvent);
 
 /**
  * @swagger
- * /api/event/{id}:
+ * /api/events/{id}:
  *   put:
+ *     tags:
+ *     - EventController
  *     summary: Update an event by ID
  *     parameters:
  *       - in: path
@@ -100,8 +115,10 @@ router.put("/:id", updateEvent);
 
 /**
  * @swagger
- * /api/event/{id}:
+ * /api/events/{id}:
  *   delete:
+ *     tags:
+ *     - EventController
  *     summary: Delete an event by ID
  *     parameters:
  *       - in: path

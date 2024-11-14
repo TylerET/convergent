@@ -28,6 +28,7 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "API documentation for your Express app",
     },
+    tags: [{ name: "EventController", description: "Event endpoints" }],
     servers: [
       {
         url:
