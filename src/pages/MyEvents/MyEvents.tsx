@@ -1,7 +1,6 @@
 import React from "react";
 import { StyledDiv } from "./MyEvents.styles";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
-import mockEventData from "../../mocks/mockEvents";
 import { getUserEvents } from "../../utils/localStorageUtils";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";

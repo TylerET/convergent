@@ -11,8 +11,10 @@ import EventsPage from "./pages/Events/EventsPage";
 import MyEvents from "./pages/MyEvents/MyEvents";
 import HostEvent from "./pages/HostEvent/HostEvent";
 import ManageEvents from "./pages/ManageEvents/ManageEvents";
+import mockEventData from "./mocks/mockEvents";
 
 function App() {
+  console.log(mockEventData);
   return (
     <ChakraProvider>
       <CustomerProvider>
