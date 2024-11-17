@@ -113,7 +113,14 @@ function HeaderNavigation() {
         <Flex alignItems="center">
           {isLoggedIn ? (
             <>
-              <Button as={Link} variant="link" mr={4} onClick={logOut}>
+              <Button
+                as={Link}
+                variant="link"
+                mr={4}
+                onClick={() => {
+                  logOut();
+                }}
+              >
                 Log out
               </Button>
               <Menu>
@@ -144,7 +151,7 @@ function HeaderNavigation() {
                   <MenuItem onClick={() => setIsAvatarDrawerOpen(true)}>
                     Upload Avatar
                   </MenuItem>
-                  <MenuItem onClick={logOut}>Log out</MenuItem>
+                  <MenuItem onClick={() => logOut()}>Log out</MenuItem>
                 </MenuList>
               </Menu>
             </>
@@ -153,7 +160,7 @@ function HeaderNavigation() {
               <Button
                 as={Link}
                 onClick={() => {
-                  logIn("John Doe", "JohnDoe@email.com");
+                  logIn();
                 }}
                 variant="link"
                 mr={4}
@@ -163,7 +170,7 @@ function HeaderNavigation() {
               <Button
                 as={Link}
                 onClick={() => {
-                  logIn("John Doe", "JohnDoe@email.com");
+                  logIn("signup");
                 }}
                 colorScheme="orange"
                 borderRadius="full"

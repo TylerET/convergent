@@ -1,15 +1,11 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import {
-  getAccessToken,
-  removeAccessToken,
-  saveAccessToken,
-} from "../../utils/localStorageUtils";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface CustomerContextProps {
   isLoggedIn: boolean;
   customerData: { name: string; email: string } | null;
   selectedLocation: string;
-  logIn: (name: string, email: string) => void;
+  logIn: (screenHint?: any) => void;
   logOut: () => void;
   updateLocation: (city: string) => void;
 }
@@ -19,23 +15,20 @@ const CustomerContext = createContext<CustomerContextProps | undefined>(
 );
 
 export const CustomerProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(getAccessToken());
-  const [customerData, setCustomerData] = useState<{
-    name: string;
-    email: string;
-  } | null>(null);
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const [customerData, setCustomerData] = useState<any>(user ?? null);
   const [selectedLocation, setSelectedLocation] = useState("Charlotte");
 
-  const logIn = (name: string, email: string) => {
-    setIsLoggedIn(true);
-    setCustomerData({ name, email });
-    saveAccessToken({ name, email });
+  const logIn = (screenHint = null) => {
+    screenHint
+      ? loginWithRedirect({ authorizationParams: { screen_hint: screenHint } })
+      : loginWithRedirect();
+    setCustomerData(user);
   };
 
   const logOut = () => {
-    setIsLoggedIn(false);
     setCustomerData(null);
-    removeAccessToken();
+    logout();
   };
 
   const updateLocation = (city: string) => {
@@ -45,7 +38,7 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CustomerContext.Provider
       value={{
-        isLoggedIn,
+        isLoggedIn: isAuthenticated,
         customerData,
         selectedLocation,
         logIn,

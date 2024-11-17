@@ -9,7 +9,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const env = process.env.NODE_ENV || "production";
+const env = process.env.REACT_APP_NODE_ENV || "production";
 
 // Middleware for parsing JSON
 app.use(express.json());

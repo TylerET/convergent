@@ -27,6 +27,7 @@ import {
   saveEventIdToLocalStorage,
 } from "../../../utils/localStorageUtils";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
 
 const EventCard = ({
   title,
@@ -42,6 +43,8 @@ const EventCard = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHostedByMe, setIsHostedByMe] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const { isLoggedIn } = useCustomer();
+
   useEffect(() => {
     const myEvents = getLocalStorageItem("MyEvents");
     const myHostedEvents = getHostedEvents();
@@ -60,6 +63,27 @@ const EventCard = ({
   const handleDeleteEvent = () => {
     deleteHostedEvent(eventId);
     setIsDeleted(true);
+  };
+
+  const getIconButton = () => {
+    if (!isLoggedIn) return null;
+    return !isHostedByMe ? (
+      <Icon
+        as={isFavorite ? StarFilled : StarOutline}
+        boxSize={6}
+        ml={"auto"}
+        cursor={"pointer"}
+        onClick={handleFavoriteClick}
+      />
+    ) : (
+      <Icon
+        as={DeleteIcon}
+        boxSize={6}
+        ml={"auto"}
+        cursor={"pointer"}
+        onClick={handleDeleteEvent}
+      />
+    );
   };
 
   if (isDeleted) return null;
@@ -110,23 +134,7 @@ const EventCard = ({
                 >{`${admission}`}</Text>
               </>
             )}
-            {!isHostedByMe ? (
-              <Icon
-                as={isFavorite ? StarFilled : StarOutline}
-                boxSize={6}
-                ml={"auto"}
-                cursor={"pointer"}
-                onClick={handleFavoriteClick}
-              />
-            ) : (
-              <Icon
-                as={DeleteIcon}
-                boxSize={6}
-                ml={"auto"}
-                cursor={"pointer"}
-                onClick={handleDeleteEvent}
-              />
-            )}
+            {getIconButton()}
           </HStack>
         </Stack>
       </CardFooter>
