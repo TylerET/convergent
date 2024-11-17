@@ -6,7 +6,7 @@ const eventSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
-  attendees: { type: Number, default: 0 },
+  attendees: [{ type: String }],
   admission: { type: String, default: "Free" },
   eventId: { type: String, required: true, unique: true },
   imageSrc: { type: String, required: true },

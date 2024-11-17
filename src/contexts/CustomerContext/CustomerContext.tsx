@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { User } from "../../models/models";
 
 interface CustomerContextProps {
   isLoggedIn: boolean;
-  customerData: { name: string; email: string } | null;
+  customerData: User | null;
   selectedLocation: string;
   logIn: (screenHint?: any) => void;
   logOut: () => void;
@@ -15,19 +16,21 @@ const CustomerContext = createContext<CustomerContextProps | undefined>(
 );
 
 export const CustomerProvider = ({ children }: { children: ReactNode }) => {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  const [customerData, setCustomerData] = useState<any>(user ?? null);
+  const {
+    loginWithRedirect,
+    logout,
+    isAuthenticated,
+    user = null,
+  } = useAuth0();
   const [selectedLocation, setSelectedLocation] = useState("Charlotte");
 
   const logIn = (screenHint = null) => {
     screenHint
       ? loginWithRedirect({ authorizationParams: { screen_hint: screenHint } })
       : loginWithRedirect();
-    setCustomerData(user);
   };
 
   const logOut = () => {
-    setCustomerData(null);
     logout();
   };
 
@@ -39,7 +42,8 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
     <CustomerContext.Provider
       value={{
         isLoggedIn: isAuthenticated,
-        customerData,
+        // @ts-ignore
+        customerData: user,
         selectedLocation,
         logIn,
         logOut,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -23,8 +23,14 @@ import UploadAvatarDrawer from "../UploadAvatarDrawer/UploadAvatarDrawer";
 import { mockLocations } from "../../mocks/mockLocations";
 
 function HeaderNavigation() {
-  const { isLoggedIn, logOut, selectedLocation, updateLocation, logIn } =
-    useCustomer();
+  const {
+    isLoggedIn,
+    logOut,
+    selectedLocation,
+    updateLocation,
+    logIn,
+    customerData,
+  } = useCustomer();
   const navigation = useNavigate();
   const [isAvatarDrawerOpen, setIsAvatarDrawerOpen] = useState(false);
 
@@ -45,13 +51,6 @@ function HeaderNavigation() {
       handleSearch();
     }
   };
-
-  useEffect(() => {
-    const savedAvatar = localStorage.getItem("avatar");
-    if (savedAvatar) {
-      setCurrentImage(savedAvatar);
-    }
-  }, []);
 
   return (
     <Box bg="white" px={4} borderBottom="1px solid lightgray">
@@ -130,8 +129,8 @@ function HeaderNavigation() {
                   variant="link"
                   cursor="pointer"
                 >
-                  {CurrentImage ? (
-                    <Avatar src={CurrentImage} />
+                  {customerData?.picture ? (
+                    <Avatar src={customerData?.picture} />
                   ) : (
                     <Avatar>
                       <AvatarBadge boxSize="1.25em" bg="green.500" />

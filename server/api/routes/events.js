@@ -19,8 +19,8 @@ const router = express.Router();
  * @swagger
  * /api/events:
  *   get:
- *    tags:
- *     - EventController
+ *     tags:
+ *       - EventController
  *     summary: Get a list of all events
  *     responses:
  *       200:
