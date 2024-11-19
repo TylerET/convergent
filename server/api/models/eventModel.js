@@ -8,7 +8,7 @@ const eventSchema = new mongoose.Schema({
   endTime: { type: String, required: true },
   attendees: [{ type: String }],
   admission: { type: String, default: "Free" },
-  eventId: { type: String, required: true, unique: true },
+  eventId: { type: Number, required: false, unique: true },
   imageSrc: { type: String, required: true },
   imageAlt: { type: String, required: true },
   description: { type: String, required: true },

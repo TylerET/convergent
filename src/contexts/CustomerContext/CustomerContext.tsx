@@ -1,6 +1,13 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { User } from "../../models/models";
+import { Auth0User, User } from "../../models/models";
+import { getUserOrCreate } from "../../api/apiService";
 
 interface CustomerContextProps {
   isLoggedIn: boolean;
@@ -23,6 +30,7 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
     user = null,
   } = useAuth0();
   const [selectedLocation, setSelectedLocation] = useState("Charlotte");
+  const [customerData, setCustomerData] = useState(user);
 
   const logIn = (screenHint = null) => {
     screenHint
@@ -38,12 +46,22 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
     setSelectedLocation(city);
   };
 
+  useEffect(() => {
+    const handleUser = async () => {
+      if (user) {
+        const dbUser = await getUserOrCreate(user as Auth0User);
+        setCustomerData(dbUser);
+      }
+    };
+    handleUser();
+  }, [user]);
+
   return (
     <CustomerContext.Provider
       value={{
         isLoggedIn: isAuthenticated,
         // @ts-ignore
-        customerData: user,
+        customerData,
         selectedLocation,
         logIn,
         logOut,
