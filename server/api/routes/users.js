@@ -51,18 +51,18 @@ router.post("/", getUserOrCreate);
 
 /**
  * @swagger
- * /api/events/{id}:
+ * /api/users/{userId}:
  *   put:
  *     tags:
- *       - EventController
+ *       - UserController
  *     summary: Update an event by ID
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: userId
  *         required: true
+ *         description: The event ID to update
  *         schema:
  *           type: string
- *         description: The event ID
  *     requestBody:
  *       required: true
  *       content:
@@ -76,6 +76,7 @@ router.post("/", getUserOrCreate);
  *                 type: string
  *               date:
  *                 type: string
+ *                 format: date
  *               location:
  *                 type: string
  *               startTime:
@@ -92,11 +93,20 @@ router.post("/", getUserOrCreate);
  *     responses:
  *       200:
  *         description: Event updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 event:
+ *                   $ref: '#/components/schemas/Event'
  *       404:
  *         description: Event not found
  *       500:
  *         description: Internal server error
  */
-router.put("/events/:userId", updateUserEvents);
+router.put("/:userId", updateUserEvents);
 
 module.exports = router;

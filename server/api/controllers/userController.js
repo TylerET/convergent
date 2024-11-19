@@ -26,16 +26,14 @@ const getUserOrCreate = async (req, res) => {
 };
 
 const updateUserEvents = async (req, res) => {
-  const { events } = req.body;
+  const { events = [] } = req.body;
   const { userId } = req.params;
 
   try {
-    let user = await User.findOne({ userId });
-
+    let user = await User.findOne({ userId: Number(userId) });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     user.events = events;
     await user.save();
 

@@ -12,6 +12,7 @@ import { getUserOrCreate } from "../../api/apiService";
 interface CustomerContextProps {
   isLoggedIn: boolean;
   customerData: User | null;
+  setCustomerData: (data: any) => void;
   selectedLocation: string;
   logIn: (screenHint?: any) => void;
   logOut: () => void;
@@ -66,6 +67,7 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
         logIn,
         logOut,
         updateLocation,
+        setCustomerData,
       }}
     >
       {children}

@@ -21,4 +21,5 @@ export interface User {
   sub: string;
   updated_at: string;
   events: string[];
+  userId?: string;
 }

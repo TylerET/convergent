@@ -2,7 +2,7 @@ const express = require("express");
 const {
   getAllEvents,
   getEventById,
-  updateEvent,
+  updateEventAttendees,
   deleteEvent,
   createEvent,
 } = require("../controllers/eventController");
@@ -111,7 +111,7 @@ router.post("/", createEvent);
  *       200:
  *         description: Event updated
  */
-router.put("/:id", updateEvent);
+router.put("/:id", updateEventAttendees);
 
 /**
  * @swagger

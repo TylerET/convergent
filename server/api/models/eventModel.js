@@ -6,14 +6,20 @@ const eventSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
-  attendees: [{ type: String }],
-  admission: { type: String, default: "Free" },
-  eventId: { type: Number, required: false, unique: true },
-  imageSrc: { type: String, required: true },
-  imageAlt: { type: String, required: true },
+  attendees: [{ type: Number }],
+  admission: { type: String, required: true },
+  eventId: { type: Number, required: true, unique: true },
+  image: {
+    src: { type: String, required: true },
+    alt: { type: String, required: true },
+  },
   description: { type: String, required: true },
   tags: [{ type: String }],
-  location: { type: String, required: true },
+  location: {
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+  },
 });
 
 const Event = mongoose.model("Event", eventSchema);

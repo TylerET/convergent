@@ -23,11 +23,10 @@ import {
   deleteHostedEvent,
   getHostedEvents,
   getLocalStorageItem,
-  removeEventIdFromLocalStorage,
-  saveEventIdToLocalStorage,
 } from "../../../utils/localStorageUtils";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
+import { updateUser } from "../../../api/apiService";
 
 const EventCard = ({
   title,
@@ -43,21 +42,30 @@ const EventCard = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHostedByMe, setIsHostedByMe] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const { isLoggedIn } = useCustomer();
+  const { isLoggedIn, customerData, setCustomerData } = useCustomer();
 
   useEffect(() => {
     const myEvents = getLocalStorageItem("MyEvents");
     const myHostedEvents = getHostedEvents();
     const myHostedEventIds = myHostedEvents.map((event: any) => event.eventId);
     setIsHostedByMe(myHostedEventIds?.includes(eventId));
-    setIsFavorite(myEvents?.includes(eventId));
-  }, []);
+    if (customerData?.events) {
+      setIsFavorite(customerData?.events?.includes(eventId));
+    }
+  }, [customerData]);
 
   const handleFavoriteClick = () => {
-    isFavorite
-      ? removeEventIdFromLocalStorage(eventId)
-      : saveEventIdToLocalStorage(eventId);
-    setIsFavorite((prevState: boolean) => !prevState);
+    if (customerData?.userId && customerData?.events) {
+      const updatedEvents = isFavorite
+        ? customerData?.events.filter((event) => event !== eventId)
+        : [...customerData?.events, eventId];
+      // @ts-ignore
+      const setArray = [...new Set(updatedEvents)];
+      updateUser(customerData?.userId, setArray).then((response) => {
+        setIsFavorite((prevState: boolean) => !prevState);
+        setCustomerData({ ...customerData, events: setArray });
+      });
+    }
   };
 
   const handleDeleteEvent = () => {

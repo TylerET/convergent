@@ -1,8 +1,5 @@
 const Event = require("../models/eventModel");
 
-/**
- * Fetch all events from the database.
- */
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find();
@@ -13,9 +10,6 @@ const getAllEvents = async (req, res) => {
   }
 };
 
-/**
- * Create a new event in the database.
- */
 const createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
@@ -27,9 +21,6 @@ const createEvent = async (req, res) => {
   }
 };
 
-/**
- * Get a single event by ID.
- */
 const getEventById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -44,9 +35,6 @@ const getEventById = async (req, res) => {
   }
 };
 
-/**
- * Update an event by ID.
- */
 const updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,9 +52,6 @@ const updateEvent = async (req, res) => {
   }
 };
 
-/**
- * Delete an event by ID.
- */
 const deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -81,10 +66,32 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+const updateEventAttendees = async (req, res) => {
+  const { attendees = [] } = req.body;
+  const { id } = req.params;
+
+  try {
+    let event = await Event.findOne({ eventId: Number(id) });
+    if (!event) {
+      return res.status(404).json({ message: "event not found" });
+    }
+    event.attendees = attendees;
+    await event.save();
+
+    res.status(200).json({ message: "attendees updated successfully", event });
+  } catch (error) {
+    console.error("Error updating event attendees:", error.message);
+    res
+      .status(500)
+      .json({ message: "Failed to update attendees", error: error.message });
+  }
+};
+
 module.exports = {
   getAllEvents,
   createEvent,
   getEventById,
   updateEvent,
   deleteEvent,
+  updateEventAttendees,
 };
