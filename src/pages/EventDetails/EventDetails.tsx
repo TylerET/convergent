@@ -13,32 +13,40 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { StyledDiv } from "./EventDetails.styles";
-import mockEventData from "../../mocks/mockEvents";
 import { EventCardProps } from "../../components/common/EventCard/typings/EventCardProps";
 import EventPageHeader from "../../components/common/EventPageHeader/EventPageHeader";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Attendees from "../../components/common/Attendees/Attendees";
-import { getUserEvents } from "../../utils/localStorageUtils";
+import { getEventByEventId } from "../../api/apiService";
 
 const EventDetails = () => {
   const { eventId } = useParams();
+  const navigation = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<EventCardProps | null>(
     null
   );
 
   useEffect(() => {
-    const allEvents = [...getUserEvents(), ...mockEventData];
-    const filteredAllEvents = allEvents.find(
-      (event) => event.eventId === eventId
-    );
-    if (filteredAllEvents) {
-      setSelectedEvent(filteredAllEvents);
-      setIsLoading(false);
+    if (eventId) {
+      getEventByEventId(Number(eventId))
+        .then((response) => {
+          if (response) {
+            setSelectedEvent(response);
+            setIsLoading(false);
+          } else {
+            navigation("/");
+          }
+        })
+        .catch((error: any) => {
+          console.error(error.message);
+          navigation("/");
+        });
+    } else {
+      navigation("/");
     }
   }, [eventId]);
 
-  const navigation = useNavigate();
   return (
     <Skeleton isLoaded={!isLoading}>
       {selectedEvent && (

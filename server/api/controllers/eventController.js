@@ -100,6 +100,25 @@ const getAllEventByUserId = async (req, res) => {
   }
 };
 
+const getEventsByLocation = async (req, res) => {
+  const { location } = req.params;
+
+  try {
+    const events = await Event.find({
+      location: { $regex: new RegExp(location, "i") },
+    });
+
+    if (events.length === 0) {
+      return res.status(404).json([]);
+    }
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events by location:", error.message);
+    res.status(500).json({ message: "Failed to fetch events by location" });
+  }
+};
+
 module.exports = {
   getAllEventByUserId,
   getAllEvents,
@@ -108,4 +127,5 @@ module.exports = {
   updateEvent,
   deleteEvent,
   updateEventAttendees,
+  getEventsByLocation,
 };

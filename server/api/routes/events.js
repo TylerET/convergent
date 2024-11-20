@@ -6,6 +6,7 @@ const {
   deleteEvent,
   createEvent,
   getAllEventByUserId,
+  getEventsByLocation,
 } = require("../controllers/eventController");
 const router = express.Router();
 
@@ -153,5 +154,29 @@ router.delete("/:id", deleteEvent);
  *         description: A list of events by user id
  */
 router.get("/user/:userId", getAllEventByUserId);
+
+/**
+ * @swagger
+ * /api/events/location/{location}:
+ *   get:
+ *     tags:
+ *       - EventController
+ *     summary: Get events by location
+ *     parameters:
+ *       - in: path
+ *         name: location
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The location to filter events by
+ *     responses:
+ *       200:
+ *         description: List of events matching the location
+ *       404:
+ *         description: No events found for the location
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/location/:location", getEventsByLocation);
 
 module.exports = router;

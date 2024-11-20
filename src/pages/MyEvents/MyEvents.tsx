@@ -4,16 +4,17 @@ import EventCardContainer from "../../components/common/EventCardContainer/Event
 import { getUserEvents } from "../../utils/localStorageUtils";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllEventsByUserId } from "../../api/apiService";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 
 const MyEvents = () => {
   const { isLoggedIn, customerData } = useCustomer();
   const [myEvents, setMyEvents] = useState([]);
+  const navigation = useNavigate();
   useEffect(() => {
     if (!customerData?.userId || !isLoggedIn) {
-      window.location.href = "/";
+      navigation("/");
     } else {
       getAllEventsByUserId(customerData?.userId).then((response) => {
         if (response) {

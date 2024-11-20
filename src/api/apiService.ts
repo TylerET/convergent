@@ -45,6 +45,46 @@ export const getAllEventsByUserId = async (userId: number) => {
   }
 };
 
+export const getEventByEventId = async (eventId: number) => {
+  const apiUrl = `${basePath}/events/${eventId}`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const events = await response.json();
+    return events;
+  } catch (error: any) {
+    console.error("Error in get all events API call:", error.message);
+  }
+};
+
+export const getEventsByLocation = async (location: string) => {
+  const apiUrl = `${basePath}/events/location/${location}`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const events = await response.json();
+    return events;
+  } catch (error: any) {
+    console.error("Error in get all events API call:", error.message);
+  }
+};
+
 export const addUserEvent = async (userId: number, eventId: number) => {
   const apiUrl = `${basePath}/attendees/add`;
   try {

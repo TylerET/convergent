@@ -15,11 +15,7 @@ const eventSchema = new mongoose.Schema({
   },
   description: { type: String, required: true },
   tags: [{ type: String }],
-  location: {
-    address: { type: String, required: false },
-    city: { type: String, required: false },
-    state: { type: String, required: false },
-  },
+  location: { type: String, required: false },
 });
 
 const Event = mongoose.model("Event", eventSchema);
