@@ -2,7 +2,7 @@
   "name": "convergent",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://TylerET.github.io/convergent/",
+  "homepage": "https://tyleret.github.io/convergent",
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
