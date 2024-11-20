@@ -1,5 +1,5 @@
 export type EventCardProps = {
-  eventId: string;
+  eventId: number;
   title: string;
   hostedBy: string;
   date: string;

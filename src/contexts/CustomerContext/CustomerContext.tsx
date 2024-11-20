@@ -40,7 +40,8 @@ export const CustomerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logOut = () => {
-    logout();
+    // @ts-ignore
+    logout({ returnTo: window.location.origin });
   };
 
   const updateLocation = (city: string) => {

@@ -5,6 +5,7 @@ const {
   updateEventAttendees,
   deleteEvent,
   createEvent,
+  getAllEventByUserId,
 } = require("../controllers/eventController");
 const router = express.Router();
 
@@ -132,5 +133,25 @@ router.put("/:id", updateEventAttendees);
  *         description: Event deleted
  */
 router.delete("/:id", deleteEvent);
+
+/**
+ * @swagger
+ * /api/events/user/{userId}:
+ *   get:
+ *     tags:
+ *       - EventController
+ *     summary: Get a list of all events by user id
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: The event ID
+ *     responses:
+ *       200:
+ *         description: A list of events by user id
+ */
+router.get("/user/:userId", getAllEventByUserId);
 
 module.exports = router;

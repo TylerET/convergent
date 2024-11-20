@@ -30,9 +30,7 @@ const addUserToEvent = async (userId, eventId) => {
 
     if (!event.attendees.includes(userId)) {
       event.attendees.push(Number(userId));
-      console.log("event.attendees:", event.attendees);
       await event.save();
-      console.log("after save");
     }
 
     return { user, event };

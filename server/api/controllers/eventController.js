@@ -1,4 +1,5 @@
 const Event = require("../models/eventModel");
+const { getEventsByUserId } = require("../services/eventService");
 
 const getAllEvents = async (req, res) => {
   try {
@@ -87,7 +88,20 @@ const updateEventAttendees = async (req, res) => {
   }
 };
 
+const getAllEventByUserId = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const events = await getEventsByUserId(userId);
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
+  getAllEventByUserId,
   getAllEvents,
   createEvent,
   getEventById,

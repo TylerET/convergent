@@ -46,7 +46,7 @@ const EventCardContainer = ({
         </Link>
       </Flex>
       <ResponsiveGridContainer>
-        {eventCards.map((event) => (
+        {eventCards?.map((event) => (
           <EventCard key={event?.eventId} {...event} />
         ))}
       </ResponsiveGridContainer>

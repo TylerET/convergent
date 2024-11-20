@@ -46,7 +46,7 @@ const HostEvent = () => {
       hostedBy: (customerData?.given_name as string) ?? "",
       imageSrc: `https://picsum.photos/id/${eventId}`,
     };
-    saveHostedEvent(newEvent);
+    // saveHostedEvent(newEvent);
     navigation(`/events/details/${eventId}`);
   };
 

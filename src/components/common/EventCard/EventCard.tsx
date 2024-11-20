@@ -68,12 +68,12 @@ const EventCard = ({
             setCustomerData(response);
           }
         })
-        .catch((error: any) => console.log(error.message));
+        .catch((error: any) => console.error(error.message));
     }
   };
 
   const handleDeleteEvent = () => {
-    deleteHostedEvent(eventId);
+    // deleteHostedEvent(eventId);
     setIsDeleted(true);
   };
 

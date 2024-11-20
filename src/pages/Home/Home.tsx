@@ -6,20 +6,24 @@ import { Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 import { getUserEvents } from "../../utils/localStorageUtils";
-import { getAllEvents } from "../../api/apiService";
+import { getAllEvents, getAllEventsByUserId } from "../../api/apiService";
 
 function Home() {
   const navigation = useNavigate();
   const navigateToViewAllEvents = () => navigation("/events");
   const navigateToMyEvents = () => navigation("/my-events");
-  const { isLoggedIn } = useCustomer();
-  const [myEvents, setMyEvents] = useState<any>([]);
+  const { isLoggedIn, customerData } = useCustomer();
+  const [myEvents, setMyEvents] = useState([]);
 
   useEffect(() => {
-    getAllEvents()
-      .then((response) => setMyEvents(response))
-      .catch((error) => console.log(error.message));
-  }, [isLoggedIn]);
+    if (customerData?.userId && isLoggedIn) {
+      getAllEventsByUserId(customerData?.userId).then((response) => {
+        if (response) {
+          setMyEvents(response);
+        }
+      });
+    }
+  }, [isLoggedIn, customerData]);
 
   return (
     <StyledDiv>

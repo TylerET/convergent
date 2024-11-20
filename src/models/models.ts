@@ -20,6 +20,6 @@ export interface User {
   picture: string;
   sub: string;
   updated_at: string;
-  events: string[];
-  userId?: string;
+  events: number[];
+  userId?: number;
 }
