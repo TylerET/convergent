@@ -23,7 +23,7 @@ function App() {
         domain={domain as string}
         clientId={clientId as string}
         authorizationParams={{
-          redirect_uri: `${window.location.origin}/convergent/`,
+          redirect_uri: window.location.origin,
         }}
         useRefreshTokens={true}
         cacheLocation="localstorage"
