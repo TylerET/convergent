@@ -17,6 +17,8 @@ function App() {
   const domain = process.env.REACT_APP_AUTH_ISSUER_BASE_URL;
   const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
 
+  console.log("window.location.origin", window.location.origin);
+
   return (
     <ChakraProvider>
       <Auth0Provider
