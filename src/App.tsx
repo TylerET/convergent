@@ -16,7 +16,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 function App() {
   const domain = process.env.REACT_APP_AUTH_ISSUER_BASE_URL;
   const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
-  // Main App
   return (
     <ChakraProvider>
       <Auth0Provider
