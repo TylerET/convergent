@@ -39,7 +39,6 @@ const EventDetails = () => {
   }, [eventId]);
 
   const navigation = useNavigate();
-
   return (
     <Skeleton isLoaded={!isLoading}>
       {selectedEvent && (
@@ -62,8 +61,8 @@ const EventDetails = () => {
             <Grid templateColumns="2fr 1fr" gap={8}>
               <GridItem>
                 <Image
-                  src={`${selectedEvent?.imageSrc}/700/400`}
-                  alt={selectedEvent?.imageAlt ?? "Event Image"}
+                  src={`${selectedEvent?.image?.src}/700/400`}
+                  alt={selectedEvent?.image?.alt ?? "Event Image"}
                   borderRadius={"lg"}
                   fallbackStrategy="beforeLoadOrError"
                   fallback={<Skeleton width={"700px"} height={"400px"} />}
@@ -94,7 +93,9 @@ const EventDetails = () => {
                 <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
                   Attendees ({selectedEvent?.attendees})
                 </Text>
-                <Attendees numberOfAttendees={selectedEvent?.attendees as number} />
+                <Attendees
+                  numberOfAttendees={selectedEvent?.attendees as number}
+                />
               </GridItem>
 
               <GridItem>
@@ -107,7 +108,9 @@ const EventDetails = () => {
                 </Box>
                 <Box mb={2}>
                   <Text fontWeight="bold">Date:</Text>
-                  <Text>{selectedEvent?.date.toLocaleDateString()}</Text>
+                  <Text>
+                    {new Date(selectedEvent?.date).toLocaleDateString()}
+                  </Text>
                 </Box>
                 <Box mb={2}>
                   <Text fontWeight="bold">Time:</Text>

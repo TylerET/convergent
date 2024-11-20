@@ -23,7 +23,7 @@ const EventsPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <StyledDiv>
-        <EventCardContainer title="All Events" eventCards={mockEventData} />
+        {/* <EventCardContainer title="All Events" eventCards={mockEventData} /> */}
       </StyledDiv>
     </>
   );

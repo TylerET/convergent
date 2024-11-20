@@ -26,7 +26,7 @@ import {
 } from "../../../utils/localStorageUtils";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
-import { updateUser } from "../../../api/apiService";
+import { addUserEvent, removeUserEvent } from "../../../api/apiService";
 
 const EventCard = ({
   title,
@@ -35,14 +35,14 @@ const EventCard = ({
   time,
   attendees,
   admission,
-  imageSrc,
-  imageAlt,
+  image,
   eventId,
 }: EventCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHostedByMe, setIsHostedByMe] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const { isLoggedIn, customerData, setCustomerData } = useCustomer();
+  const formattedDate = new Date(date).toLocaleDateString();
 
   useEffect(() => {
     const myEvents = getLocalStorageItem("MyEvents");
@@ -56,15 +56,19 @@ const EventCard = ({
 
   const handleFavoriteClick = () => {
     if (customerData?.userId && customerData?.events) {
-      const updatedEvents = isFavorite
-        ? customerData?.events.filter((event) => event !== eventId)
-        : [...customerData?.events, eventId];
-      // @ts-ignore
-      const setArray = [...new Set(updatedEvents)];
-      updateUser(customerData?.userId, setArray).then((response) => {
-        setIsFavorite((prevState: boolean) => !prevState);
-        setCustomerData({ ...customerData, events: setArray });
-      });
+      const handleUpdate = async () => {
+        return isFavorite
+          ? removeUserEvent(Number(customerData?.userId), Number(eventId))
+          : addUserEvent(Number(customerData?.userId), Number(eventId));
+      };
+      handleUpdate()
+        .then((response: any) => {
+          if (response) {
+            setIsFavorite((prevState: boolean) => !prevState);
+            setCustomerData(response);
+          }
+        })
+        .catch((error: any) => console.log(error.message));
     }
   };
 
@@ -105,8 +109,8 @@ const EventCard = ({
         pb={0}
       >
         <Image
-          src={`${imageSrc}/250/200`}
-          alt={imageAlt}
+          src={`${image?.src}/250/200`}
+          alt={image?.alt}
           borderRadius={"lg"}
           fallbackStrategy="beforeLoadOrError"
           fallback={<Skeleton width={"250px"} height={"200px"} />}
@@ -115,7 +119,7 @@ const EventCard = ({
           <Heading size="md">{title}</Heading>
           <Text>{`Hosted by: ${hostedBy}`}</Text>
           <Flex justifyContent={"space-between"}>
-            <Text>{date.toLocaleDateString()}</Text>
+            <Text>{formattedDate}</Text>
             {time && <Text>{time}</Text>}
           </Flex>
         </Stack>

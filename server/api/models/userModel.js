@@ -33,7 +33,11 @@ const userSchema = new mongoose.Schema(
       default: Date.now,
     },
     events: {
-      type: [String],
+      type: [Number],
+      required: false,
+    },
+    userId: {
+      type: Number,
       required: false,
     },
   },

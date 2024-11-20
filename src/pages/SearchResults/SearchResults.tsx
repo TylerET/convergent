@@ -41,7 +41,7 @@ function SearchResults() {
       <Heading mb={4}>Search Results for "{query}"</Heading>
       {filteredEvents.length > 0 ? (
         <StyledDiv>
-          <EventCardContainer eventCards={filteredEvents} />
+          {/* <EventCardContainer eventCards={filteredEvents} /> */}
         </StyledDiv>
       ) : (
         <p>No events found matching your search.</p>

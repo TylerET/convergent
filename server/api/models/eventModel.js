@@ -16,9 +16,9 @@ const eventSchema = new mongoose.Schema({
   description: { type: String, required: true },
   tags: [{ type: String }],
   location: {
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
+    address: { type: String, required: false },
+    city: { type: String, required: false },
+    state: { type: String, required: false },
   },
 });
 

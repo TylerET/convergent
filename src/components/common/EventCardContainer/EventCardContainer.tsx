@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { EventCardContainerProps } from "./typings/EventCardContainerProps";
 import { ResponsiveGridContainer } from "./EventCardContainer.styles";
 import EventCard from "../EventCard/EventCard";
-import { Flex, Icon, Link, Stack, Text } from "@chakra-ui/react";
-import { ReactComponent as EditIcon } from "../../../assets/icons/pencil-edit-svgrepo-com.svg";
+import { Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
 
 const EventCardContainer = ({

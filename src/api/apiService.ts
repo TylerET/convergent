@@ -5,21 +5,62 @@ const basePath =
     ? "http://localhost:5000/api"
     : "https://convergent.onrender.com/api";
 
-export const updateUser = async (userId: string, eventArray: string[]) => {
-  const apiUrl = `${basePath}/users/${userId}`;
+export const getAllEvents = async () => {
+  const apiUrl = `${basePath}/events`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const events = await response.json();
+    return events;
+  } catch (error: any) {
+    console.error("Error in get all events API call:", error.message);
+  }
+};
+
+export const addUserEvent = async (userId: number, eventId: number) => {
+  const apiUrl = `${basePath}/attendees/add`;
   try {
     const response = await fetch(apiUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ events: eventArray }),
+      body: JSON.stringify({ userId, eventId }),
     });
 
     if (!response.ok) {
       throw new Error(`API call failed with status ${response.status}`);
     }
-    const user = await response.json();
+    const { user } = await response.json();
+    return user;
+  } catch (error: any) {
+    console.error("Error in user update API call:", error.message);
+  }
+};
+
+export const removeUserEvent = async (userId: number, eventId: number) => {
+  const apiUrl = `${basePath}/attendees/remove`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, eventId }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const { user } = await response.json();
     return user;
   } catch (error: any) {
     console.error("Error in user update API call:", error.message);

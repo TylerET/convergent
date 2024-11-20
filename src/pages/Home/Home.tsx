@@ -6,6 +6,7 @@ import { Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 import { getUserEvents } from "../../utils/localStorageUtils";
+import { getAllEvents } from "../../api/apiService";
 
 function Home() {
   const navigation = useNavigate();
@@ -15,7 +16,9 @@ function Home() {
   const [myEvents, setMyEvents] = useState<any>([]);
 
   useEffect(() => {
-    setMyEvents(getUserEvents());
+    getAllEvents()
+      .then((response) => setMyEvents(response))
+      .catch((error) => console.log(error.message));
   }, [isLoggedIn]);
 
   return (
@@ -29,7 +32,7 @@ function Home() {
             linkAction={navigateToMyEvents}
           />
         )}
-        <EventCardContainer
+        {/* <EventCardContainer
           eventCards={mockEventData.slice(0, 8)}
           title="Events Near"
           linkText="See all events"
@@ -45,7 +48,7 @@ function Home() {
           title="Upcoming Events"
           linkText="See all events"
           linkAction={navigateToViewAllEvents}
-        />
+        /> */}
       </Stack>
     </StyledDiv>
   );
