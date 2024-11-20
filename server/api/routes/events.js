@@ -1,4 +1,5 @@
 const express = require("express");
+const Event = require("../models/eventModel");
 const {
   getAllEvents,
   getEventById,
@@ -16,6 +17,68 @@ const router = express.Router();
  *  - EventController
  *  description: Event endpoints
  */
+
+/**
+ * @swagger
+ * /api/events/search:
+ *   get:
+ *     tags:
+ *       - EventController
+ *     summary: Search for events by query
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Search term to filter events by title, hostedBy, or tags
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Maximum number of results to return
+ *     responses:
+ *       200:
+ *         description: Filtered list of events
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Event'
+ *       400:
+ *         description: Missing query parameter
+ *       500:
+ *         description: Internal server error
+ */
+
+router.get("/search", async (req, res) => {
+  const { query, limit = 10 } = req.query;
+  if (!query) {
+    return res.status(400).json({ message: "Query parameter is required" });
+  }
+
+  try {
+    const searchRegex = new RegExp(query, "i"); // Case-insensitive regex for matching
+    const events = await Event.find({
+      $or: [
+        { title: { $regex: searchRegex } },
+        { hostedBy: { $regex: searchRegex } },
+        { tags: { $elemMatch: { $regex: searchRegex } } },
+      ],
+    })
+      .limit(Number(limit))
+      .exec();
+
+    console.log(events);
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 /**
  * @swagger
