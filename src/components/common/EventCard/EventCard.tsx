@@ -25,7 +25,11 @@ import {
 } from "../../../utils/localStorageUtils";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useCustomer } from "../../../contexts/CustomerContext/CustomerContext";
-import { addUserEvent, removeUserEvent } from "../../../api/apiService";
+import {
+  addUserEvent,
+  deleteEvent,
+  removeUserEvent,
+} from "../../../api/apiService";
 
 const EventCard = ({
   title,
@@ -36,6 +40,7 @@ const EventCard = ({
   admission,
   image,
   eventId,
+  hostedById,
 }: EventCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHostedByMe, setIsHostedByMe] = useState(false);
@@ -44,11 +49,8 @@ const EventCard = ({
   const formattedDate = new Date(date).toLocaleDateString();
 
   useEffect(() => {
-    const myEvents = getLocalStorageItem("MyEvents");
-    const myHostedEvents = getHostedEvents();
-    const myHostedEventIds = myHostedEvents.map((event: any) => event.eventId);
-    setIsHostedByMe(myHostedEventIds?.includes(eventId));
     if (customerData?.events) {
+      setIsHostedByMe(customerData?.userId === hostedById);
       setIsFavorite(customerData?.events?.includes(eventId));
     }
   }, [customerData]);
@@ -72,8 +74,11 @@ const EventCard = ({
   };
 
   const handleDeleteEvent = () => {
-    // deleteHostedEvent(eventId);
-    setIsDeleted(true);
+    deleteEvent(eventId).then((response) => {
+      if (response) {
+        setIsDeleted(true);
+      }
+    });
   };
 
   const getIconButton = () => {
@@ -112,7 +117,7 @@ const EventCard = ({
           alt={image?.alt}
           borderRadius={"lg"}
           fallbackStrategy="beforeLoadOrError"
-          fallback={<Skeleton width={"250px"} height={"200px"} />}
+          fallback={<Skeleton width={"222.5px"} height={"178px"} />}
         />
         <Stack mt="6" spacing="3">
           <Heading size="md">{title}</Heading>

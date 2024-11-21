@@ -44,11 +44,9 @@ const HostEvent = () => {
       location,
       tags,
       admission,
-      hostedBy: (customerData?.given_name as string) ?? "You",
-      // image: {
-      //   src: `https://picsum.photos/id/${eventId}`,
-      //   alt: eventDescription,
-      // },
+      attendees: [customerData?.userId],
+      hostedBy: (customerData?.firstName as string) ?? "You",
+      hostedById: customerData?.userId,
     };
     hostEvent(newEvent).then((response) => {
       navigation(`/events/details/${response?.eventId}`);

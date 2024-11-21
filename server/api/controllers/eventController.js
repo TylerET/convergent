@@ -11,22 +11,37 @@ const getAllEvents = async (req, res) => {
   }
 };
 
+const waitForEventId = async (eventId, retries = 5, delay = 200) => {
+  for (let i = 0; i < retries; i++) {
+    const event = await Event.findById(eventId);
+    if (event && event.eventId) {
+      return event;
+    }
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+  throw new Error("eventId not generated after retries");
+};
+
 const createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     const savedEvent = await newEvent.save();
-    const updatedEvent = await Event.findById(savedEvent._id);
+
+    const updatedEvent = await waitForEventId(savedEvent._id);
+
     const eventId = updatedEvent.eventId;
     const eventDescription = updatedEvent.description;
     const image = {
       src: `https://picsum.photos/id/${eventId}`,
       alt: eventDescription,
     };
+
     const updatedEventImage = await Event.findByIdAndUpdate(
       savedEvent._id,
       { image },
       { new: true }
     );
+
     res.status(201).json(updatedEventImage);
   } catch (error) {
     console.error("Error creating event:", error.message);
@@ -68,7 +83,7 @@ const updateEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedEvent = await Event.findByIdAndDelete(id);
+    const deletedEvent = await Event.findOneAndDelete({ eventId: id });
     if (!deletedEvent) {
       return res.status(404).json({ message: "Event not found" });
     }
@@ -131,6 +146,25 @@ const getEventsByLocation = async (req, res) => {
   }
 };
 
+const getEventsByHostedById = async (req, res) => {
+  const { hostedById } = req.params;
+
+  try {
+    const events = await Event.find({
+      hostedById,
+    });
+
+    if (events.length === 0) {
+      return res.status(404).json([]);
+    }
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events by hosted id:", error.message);
+    res.status(500).json({ message: "Failed to fetch events by hosted id" });
+  }
+};
+
 module.exports = {
   getAllEventByUserId,
   getAllEvents,
@@ -140,4 +174,5 @@ module.exports = {
   deleteEvent,
   updateEventAttendees,
   getEventsByLocation,
+  getEventsByHostedById,
 };

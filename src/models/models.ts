@@ -13,8 +13,8 @@ export interface Auth0User {
 export interface User {
   email: string;
   email_verified: boolean;
-  family_name: string;
-  given_name: string;
+  lastName: string;
+  firstName: string;
   name: string;
   nickname: string;
   picture: string;

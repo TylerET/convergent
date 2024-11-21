@@ -8,6 +8,7 @@ const {
   createEvent,
   getAllEventByUserId,
   getEventsByLocation,
+  getEventsByHostedById,
 } = require("../controllers/eventController");
 const router = express.Router();
 
@@ -241,5 +242,29 @@ router.get("/user/:userId", getAllEventByUserId);
  *         description: Internal server error
  */
 router.get("/location/:location", getEventsByLocation);
+
+/**
+ * @swagger
+ * /api/events/hosted/{hostedById}:
+ *   get:
+ *     tags:
+ *       - EventController
+ *     summary: Get events by hosted by id
+ *     parameters:
+ *       - in: path
+ *         name: hostedById
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Get events by hosted by id
+ *     responses:
+ *       200:
+ *         description: List of events matching the hosted by id
+ *       404:
+ *         description: No events found for the hosted by id
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/hosted/:hostedById", getEventsByHostedById);
 
 module.exports = router;

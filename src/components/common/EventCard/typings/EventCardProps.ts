@@ -2,6 +2,7 @@ export type EventCardProps = {
   eventId: number;
   title: string;
   hostedBy: string;
+  hostedById: number;
   date: string;
   time?: string;
   attendees?: string[];
