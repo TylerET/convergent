@@ -2,8 +2,8 @@ import { styled } from "@chakra-ui/react";
 
 export const ResponsiveGridContainer = styled("div", {
   baseStyle: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    display: "flex",
+    flexWrap: "wrap",
     gap: "20px",
     justifyItems: "start",
     width: "100%",

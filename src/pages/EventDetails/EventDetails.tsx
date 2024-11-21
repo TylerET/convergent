@@ -99,10 +99,10 @@ const EventDetails = () => {
                 </Box>
 
                 <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
-                  Attendees ({selectedEvent?.attendees})
+                  Attendees ({selectedEvent?.attendees?.length ?? 1})
                 </Text>
                 <Attendees
-                  numberOfAttendees={selectedEvent?.attendees as number}
+                  numberOfAttendees={selectedEvent?.attendees?.length ?? 1}
                 />
               </GridItem>
 

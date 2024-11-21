@@ -4,7 +4,7 @@ export type EventCardProps = {
   hostedBy: string;
   date: string;
   time?: string;
-  attendees?: number;
+  attendees?: string[];
   admission?: string;
   image?: {
     src?: string;

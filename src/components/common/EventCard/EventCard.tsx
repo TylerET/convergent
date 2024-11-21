@@ -20,7 +20,6 @@ import { ReactComponent as StarFilled } from "../../../assets/icons/star-filled.
 import { ReactComponent as StarOutline } from "../../../assets/icons/star-outline.svg";
 import { Link } from "react-router-dom";
 import {
-  deleteHostedEvent,
   getHostedEvents,
   getLocalStorageItem,
 } from "../../../utils/localStorageUtils";
@@ -33,7 +32,7 @@ const EventCard = ({
   hostedBy,
   date,
   time,
-  attendees,
+  attendees = [],
   admission,
   image,
   eventId,
@@ -100,7 +99,7 @@ const EventCard = ({
 
   if (isDeleted) return null;
   return (
-    <Card maxW="sm">
+    <Card maxW="calc(250px + 1.25rem)">
       <CardBody
         cursor={"pointer"}
         as={Link}
@@ -126,15 +125,15 @@ const EventCard = ({
       </CardBody>
       <CardFooter mt={0} pt={0}>
         <Stack width={"100%"}>
-          {(attendees || admission) && <Divider />}
+          {(attendees?.length > 0 || admission) && <Divider />}
           <HStack spacing={4} alignItems={"center"}>
-            {attendees && (
+            {attendees?.length > 0 && (
               <>
                 <Icon as={PersonIcon} boxSize={4} />
                 <Text
                   verticalAlign={"center"}
                   marginBottom={0}
-                >{`${attendees}`}</Text>
+                >{`${attendees?.length}`}</Text>
               </>
             )}
             {admission && (
