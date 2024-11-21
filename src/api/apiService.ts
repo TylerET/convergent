@@ -1,9 +1,31 @@
+import { EventCardProps } from "../components/common/EventCard/typings/EventCardProps";
 import { Auth0User } from "../models/models";
 
 const basePath =
   process.env.REACT_APP_NODE_ENV === "development"
     ? "http://localhost:5000/api"
     : "https://convergent.onrender.com/api";
+
+export const hostEvent = async (event: any) => {
+  const apiUrl = `${basePath}/events`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(event),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const events = await response.json();
+    return events;
+  } catch (error: any) {
+    console.error("Error in get create event API call:", error.message);
+  }
+};
 
 export const getAllEvents = async () => {
   const apiUrl = `${basePath}/events`;

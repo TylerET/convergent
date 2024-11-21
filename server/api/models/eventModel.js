@@ -8,10 +8,10 @@ const eventSchema = new mongoose.Schema({
   endTime: { type: String, required: true },
   attendees: [{ type: Number }],
   admission: { type: String, required: true },
-  eventId: { type: Number, required: true, unique: true },
+  eventId: { type: Number, required: false, unique: true },
   image: {
-    src: { type: String, required: true },
-    alt: { type: String, required: true },
+    src: { type: String, required: false },
+    alt: { type: String, required: false },
   },
   description: { type: String, required: true },
   tags: [{ type: String }],

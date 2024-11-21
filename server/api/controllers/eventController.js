@@ -15,7 +15,19 @@ const createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     const savedEvent = await newEvent.save();
-    res.status(201).json(savedEvent);
+    const updatedEvent = await Event.findById(savedEvent._id);
+    const eventId = updatedEvent.eventId;
+    const eventDescription = updatedEvent.description;
+    const image = {
+      src: `https://picsum.photos/id/${eventId}`,
+      alt: eventDescription,
+    };
+    const updatedEventImage = await Event.findByIdAndUpdate(
+      savedEvent._id,
+      { image },
+      { new: true }
+    );
+    res.status(201).json(updatedEventImage);
   } catch (error) {
     console.error("Error creating event:", error.message);
     res.status(500).json({ message: "Failed to create event" });
