@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyledDiv } from "./EventsPage.styles";
 import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
-import mockEventData from "../../mocks/mockEvents";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { EventCardProps } from "../../components/common/EventCard/typings/EventCardProps";
+import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
+import { getEventsByLocation } from "../../api/apiService";
 
 const EventsPage = () => {
+  const { selectedLocation } = useCustomer();
+  const [locationEvents, setLocationEvents] = useState<EventCardProps[]>([]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      getEventsByLocation(selectedLocation).then((response) => {
+        if (response) {
+          setLocationEvents(response);
+        } else {
+          setLocationEvents([]);
+        }
+      });
+    }
+  }, [selectedLocation]);
   return (
     <>
       <Breadcrumb
@@ -23,7 +39,11 @@ const EventsPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <StyledDiv>
-        {/* <EventCardContainer title="All Events" eventCards={mockEventData} /> */}
+        <EventCardContainer
+          showLocation
+          title="All Events in"
+          eventCards={locationEvents}
+        />
       </StyledDiv>
     </>
   );
