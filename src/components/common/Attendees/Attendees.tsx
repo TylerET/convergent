@@ -1,52 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AttendeesProps } from "./typings/AttendeesProps";
-import {
-  Avatar,
-  Box,
-  Card,
-  Flex,
-  Link,
-  Stack,
-  Tag,
-  Text,
-} from "@chakra-ui/react";
-import { mockAttendees } from "../../../mocks/mockAttendees";
+import { Avatar, Box, Card, Flex, Stack, Tag, Text } from "@chakra-ui/react";
+
+import { getAttendeesByEventId } from "../../../api/apiService";
 
 export interface AttendeeCardProps {
-  name: string;
-  role: string;
-  imageSrc: string;
+  firstName: string;
+  picture: string;
+  hostedById: number;
+  userId: number;
+  email: string;
 }
 
-const AttendeeCard = ({ name, role, imageSrc }: AttendeeCardProps) => {
+const AttendeeCard = ({
+  firstName,
+  picture,
+  email,
+  hostedById,
+  userId,
+}: AttendeeCardProps) => {
   return (
     <div>
       <Card
-        key={imageSrc}
+        key={picture}
         maxW={"150px"}
         padding={4}
         justifyContent={"center"}
         alignItems={"center"}
       >
         <Stack align={"center"}>
-          <Avatar size="lg" src={imageSrc} />
+          <Avatar size="lg" src={picture} />
           <Text fontWeight={"bold"} mb={0} maxWidth={100} noOfLines={1}>
-            {name}
+            {firstName ?? email}
           </Text>
-          <Tag mb={0}>{role}</Tag>
+          <Tag mb={0}>{hostedById === userId ? "Host" : "Member"}</Tag>
         </Stack>
       </Card>
     </div>
   );
 };
 
-const Attendees = ({ numberOfAttendees }: AttendeesProps) => {
+const Attendees = ({ eventId, hostedById }: AttendeesProps) => {
+  const [attendees, setAttendees] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [extraAttendeesCount, setExtraAttendeesCount] = useState<number>(0);
   const maxVisibleAttendees = 3;
-  const extraAttendeesCount = numberOfAttendees - 3;
+
+  useEffect(() => {
+    getAttendeesByEventId(eventId)
+      .then((response) => {
+        if (response) {
+          setAttendees(response.slice(0, maxVisibleAttendees));
+          setExtraAttendeesCount(response?.length - maxVisibleAttendees);
+          setIsLoading(false);
+        } else {
+          setAttendees([]);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  if (isLoading) return null;
+
   return (
     <Flex gap={8}>
-      {mockAttendees.slice(0, maxVisibleAttendees).map((attendee) => (
-        <AttendeeCard {...attendee} />
+      {attendees.map((attendee: any) => (
+        <AttendeeCard {...attendee} hostedById={hostedById} />
       ))}
       {extraAttendeesCount > 0 && (
         <Card

@@ -1,3 +1,4 @@
 export interface AttendeesProps {
-  numberOfAttendees: number;
+  eventId: number;
+  hostedById: number;
 }

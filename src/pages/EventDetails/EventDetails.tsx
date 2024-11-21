@@ -97,12 +97,12 @@ const EventDetails = () => {
                     </Tag>
                   ))}
                 </Box>
-
                 <Text fontSize={"2xl"} fontWeight={"bold"} mt={8}>
                   Attendees ({selectedEvent?.attendees?.length ?? 1})
                 </Text>
                 <Attendees
-                  numberOfAttendees={selectedEvent?.attendees?.length ?? 1}
+                  eventId={selectedEvent?.eventId}
+                  hostedById={selectedEvent?.hostedById}
                 />
               </GridItem>
 

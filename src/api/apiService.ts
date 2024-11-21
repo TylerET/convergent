@@ -237,3 +237,26 @@ export const getUserOrCreate = async (userData: Auth0User) => {
     console.error("Error in user API call:", error.message);
   }
 };
+
+export const getAttendeesByEventId = async (eventId: number) => {
+  const apiUrl = `${basePath}/attendees/event/${eventId}`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed with status ${response.status}`);
+    }
+    const events = await response.json();
+    return events;
+  } catch (error: any) {
+    console.error(
+      "Error in get all attendees by eventId API call:",
+      error.message
+    );
+  }
+};

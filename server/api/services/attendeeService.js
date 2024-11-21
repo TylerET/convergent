@@ -70,4 +70,12 @@ const removeUserFromEvent = async (userId, eventId) => {
   }
 };
 
-module.exports = { addUserToEvent, removeUserFromEvent };
+const getUsersByEventId = async (eventId) => {
+  const event = await Event.findOne({ eventId });
+  if (!event) throw new Error(`Event with ID ${eventId} not found`);
+
+  const users = await User.find({ userId: { $in: event.attendees } });
+  return users;
+};
+
+module.exports = { addUserToEvent, removeUserFromEvent, getUsersByEventId };

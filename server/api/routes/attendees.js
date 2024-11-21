@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addUserEvent,
   removeUserEvent,
+  getAttendeesByEventId,
 } = require("../controllers/attendeeController");
 const router = express.Router();
 
@@ -160,5 +161,35 @@ router.put("/add", addUserEvent);
  *         description: Internal server error
  */
 router.put("/remove", removeUserEvent);
+
+/**
+ * @swagger
+ * /api/attendees/event/{eventId}:
+ *   get:
+ *     tags:
+ *       - AttendeeController
+ *     summary: Get all users from an event's attendees
+ *     parameters:
+ *       - in: path
+ *         name: eventId
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: The event ID
+ *     responses:
+ *       200:
+ *         description: A list of users attending the event
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Event not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/event/:eventId", getAttendeesByEventId);
 
 module.exports = router;

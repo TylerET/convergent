@@ -1,6 +1,7 @@
 const {
   addUserToEvent,
   removeUserFromEvent,
+  getUsersByEventId,
 } = require("../services/attendeeService");
 
 /**
@@ -8,7 +9,7 @@ const {
  * /api/attendee/add:
  *   post:
  *     tags:
- *       - Attendee
+ *       - AttendeeController
  *     summary: Link a user with an event
  *     requestBody:
  *       required: true
@@ -53,7 +54,7 @@ const addUserEvent = async (req, res) => {
  * /api/attendee/remove:
  *   post:
  *     tags:
- *       - Attendee
+ *       - AttendeeController
  *     summary: Remvoe a user from an event
  *     requestBody:
  *       required: true
@@ -94,4 +95,62 @@ const removeUserEvent = async (req, res) => {
   }
 };
 
-module.exports = { addUserEvent, removeUserEvent };
+/**
+ * @swagger
+ * /api/attendees/event/{eventId}:
+ *   get:
+ *     tags:
+ *       - AttendeeController
+ *     summary: Get all attendees for an event
+ *     description: Retrieve a list of users attending a specific event based on the event ID.
+ *     parameters:
+ *       - in: path
+ *         name: eventId
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: The ID of the event to fetch attendees for.
+ *     responses:
+ *       200:
+ *         description: A list of users attending the event.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Event not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Event with ID 4 not found
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Failed to fetch users for event
+ */
+
+const getAttendeesByEventId = async (req, res) => {
+  const { eventId } = req.params;
+
+  try {
+    const event = await getUsersByEventId(eventId);
+    res.status(200).json(event);
+  } catch (error) {
+    console.error("Error getting attendees:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { addUserEvent, removeUserEvent, getAttendeesByEventId };
