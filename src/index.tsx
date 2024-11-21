@@ -13,11 +13,7 @@ const root = ReactDOM.createRoot(
 // App
 root.render(
   <React.StrictMode>
-    <BrowserRouter
-      basename={
-        process.env.REACT_APP_NODE_ENV === "production" ? "/convergent" : "/"
-      }
-    >
+    <BrowserRouter basename="/">
       <App />
     </BrowserRouter>
   </React.StrictMode>

@@ -1,4 +1,3 @@
-import { EventCardProps } from "../components/common/EventCard/typings/EventCardProps";
 import { Auth0User } from "../models/models";
 
 const basePath =
