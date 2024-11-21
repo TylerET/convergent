@@ -5,7 +5,6 @@ import { Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 import {
-  getAllEvents,
   getAllEventsByUserId,
   getEventsByLocation,
 } from "../../api/apiService";
@@ -29,7 +28,6 @@ function Home() {
       });
     }
     if (selectedLocation) {
-      console.log("selectedLocation", selectedLocation);
       getEventsByLocation(selectedLocation).then((response) => {
         if (response) {
           setLocationEvents(response);

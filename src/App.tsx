@@ -1,8 +1,8 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-import { ChakraProvider, Container } from "@chakra-ui/react";
+import { ChakraProvider, Container, Flex, Link } from "@chakra-ui/react";
 import HeaderNavigation from "./components/HeaderNavigation/HeaderNavigation";
 import EventDetails from "./pages/EventDetails/EventDetails";
 import { CustomerProvider } from "./contexts/CustomerContext/CustomerContext";
@@ -16,6 +16,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 function App() {
   const domain = process.env.REACT_APP_AUTH_ISSUER_BASE_URL;
   const clientId = process.env.REACT_APP_AUTH_CLIENT_ID;
+  const navigation = useNavigate();
   return (
     <ChakraProvider>
       <Auth0Provider
@@ -44,6 +45,15 @@ function App() {
               <Route path="/my-events/" element={<MyEvents />} />
             </Routes>
           </Container>
+          <Flex
+            justifyContent={"center"}
+            style={{ padding: "1rem" }}
+            onClick={() => navigation("/about")}
+          >
+            <Link color={"teal"} _hover={{ textDecoration: "underline" }}>
+              About this App
+            </Link>
+          </Flex>
         </CustomerProvider>
       </Auth0Provider>
     </ChakraProvider>
