@@ -1,4 +1,5 @@
 const Event = require("../models/eventModel");
+const { getEventsByUserId } = require("../services/eventService");
 
 const getAllEvents = async (req, res) => {
   try {
@@ -14,7 +15,19 @@ const createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     const savedEvent = await newEvent.save();
-    res.status(201).json(savedEvent);
+    const updatedEvent = await Event.findById(savedEvent._id);
+    const eventId = updatedEvent.eventId;
+    const eventDescription = updatedEvent.description;
+    const image = {
+      src: `https://picsum.photos/id/${eventId}`,
+      alt: eventDescription,
+    };
+    const updatedEventImage = await Event.findByIdAndUpdate(
+      savedEvent._id,
+      { image },
+      { new: true }
+    );
+    res.status(201).json(updatedEventImage);
   } catch (error) {
     console.error("Error creating event:", error.message);
     res.status(500).json({ message: "Failed to create event" });
@@ -87,11 +100,44 @@ const updateEventAttendees = async (req, res) => {
   }
 };
 
+const getAllEventByUserId = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const events = await getEventsByUserId(userId);
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getEventsByLocation = async (req, res) => {
+  const { location } = req.params;
+
+  try {
+    const events = await Event.find({
+      location: { $regex: new RegExp(location, "i") },
+    });
+
+    if (events.length === 0) {
+      return res.status(404).json([]);
+    }
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching events by location:", error.message);
+    res.status(500).json({ message: "Failed to fetch events by location" });
+  }
+};
+
 module.exports = {
+  getAllEventByUserId,
   getAllEvents,
   createEvent,
   getEventById,
   updateEvent,
   deleteEvent,
   updateEventAttendees,
+  getEventsByLocation,
 };

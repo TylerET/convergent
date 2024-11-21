@@ -18,6 +18,7 @@ import { getNextEventId, saveHostedEvent } from "../../utils/localStorageUtils";
 import { useCustomer } from "../../contexts/CustomerContext/CustomerContext";
 import { formatDateToYYYYMMDD } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { hostEvent } from "../../api/apiService";
 
 const HostEvent = () => {
   const [eventName, setEventName] = useState("");
@@ -27,15 +28,14 @@ const HostEvent = () => {
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [admission, setAdmission] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
 
   const { customerData, isLoggedIn } = useCustomer();
   const navigation = useNavigate();
 
   const handleSubmit = () => {
-    const eventId = String(getNextEventId()) ?? "";
     const newEvent = {
-      eventId,
       title: eventName,
       description: eventDescription,
       date: formatDateToYYYYMMDD(eventDate),
@@ -43,12 +43,16 @@ const HostEvent = () => {
       endTime,
       location,
       tags,
-      hostedBy: (customerData?.given_name as string) ?? "",
-      imageSrc: `https://picsum.photos/id/${eventId}`,
+      admission,
+      hostedBy: (customerData?.given_name as string) ?? "You",
+      // image: {
+      //   src: `https://picsum.photos/id/${eventId}`,
+      //   alt: eventDescription,
+      // },
     };
-    // @ts-expect-error
-    saveHostedEvent(newEvent);
-    navigation(`/events/details/${eventId}`);
+    hostEvent(newEvent).then((response) => {
+      navigation(`/events/details/${response?.eventId}`);
+    });
   };
 
   const addTag = () => {
@@ -130,6 +134,17 @@ const HostEvent = () => {
               </option>
             ))}
           </Select>
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormLabel>Admission Cost</FormLabel>
+          <Input
+            placeholder="Enter admission cost or 0 for free"
+            value={admission}
+            onChange={(e) =>
+              setAdmission(e.target.value == "0" ? "Free" : `${e.target.value}`)
+            }
+          />
         </FormControl>
 
         <FormControl>

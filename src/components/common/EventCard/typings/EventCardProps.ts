@@ -1,13 +1,15 @@
 export type EventCardProps = {
-  eventId: string;
+  eventId: number;
   title: string;
   hostedBy: string;
-  date: Date;
+  date: string;
   time?: string;
   attendees?: number;
   admission?: string;
-  imageSrc?: string;
-  imageAlt?: string;
+  image?: {
+    src?: string;
+    alt?: string;
+  };
   description?: string;
   location?: string;
   tags?: string[];

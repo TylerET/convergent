@@ -9,11 +9,11 @@ const userSchema = new mongoose.Schema(
     },
     firstName: {
       type: String,
-      required: true,
+      required: false,
     },
     lastName: {
       type: String,
-      required: true,
+      required: false,
     },
     sub: {
       type: String,
@@ -33,7 +33,11 @@ const userSchema = new mongoose.Schema(
       default: Date.now,
     },
     events: {
-      type: [String],
+      type: [Number],
+      required: false,
+    },
+    userId: {
+      type: Number,
       required: false,
     },
   },

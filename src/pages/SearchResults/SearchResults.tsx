@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import mockEventData from "../../mocks/mockEvents";
 import {
   Box,
   BreadcrumbLink,
@@ -8,20 +7,31 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from "@chakra-ui/react";
-import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { StyledDiv } from "./SearchResults.styles";
+import { getEventsByQuery } from "../../api/apiService";
+import EventCardContainer from "../../components/common/EventCardContainer/EventCardContainer";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query")?.toLowerCase() || "";
+  const [events, setEvents] = useState([]);
 
-  const filteredEvents = mockEventData.filter(
-    (event) =>
-      event.title.toLowerCase().includes(query) ||
-      event.hostedBy.toLocaleLowerCase().includes(query) ||
-      event.tags.some((tag) => tag.toLocaleLowerCase().includes(query))
-  );
+  useEffect(() => {
+    getEventsByQuery(query, 30)
+      .then((response) => {
+        if (response) {
+          console.log("response", response);
+          setEvents(response);
+        } else {
+          setEvents([]);
+        }
+      })
+      .catch((error: any) => {
+        console.error(error.message);
+        setEvents([]);
+      });
+  }, [searchParams]);
 
   return (
     <Box>
@@ -39,9 +49,9 @@ function SearchResults() {
         </BreadcrumbItem>
       </Breadcrumb>
       <Heading mb={4}>Search Results for "{query}"</Heading>
-      {filteredEvents.length > 0 ? (
+      {events.length > 0 ? (
         <StyledDiv>
-          <EventCardContainer eventCards={filteredEvents} />
+          <EventCardContainer eventCards={events} />
         </StyledDiv>
       ) : (
         <p>No events found matching your search.</p>
