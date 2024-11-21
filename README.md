@@ -2,7 +2,7 @@
 
 You can view the live site here:
 
-[Convergent - Live Site](https://tyleret.github.io/convergent/)
+[Convergent - Live Site](https://convergent-nine.vercel.app/)
 
 ![Convergent Demo](https://github.com/TylerET/convergent/blob/main/src/assets/Convergent.gif)
 
